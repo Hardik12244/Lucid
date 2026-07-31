@@ -50,6 +50,7 @@ export default function ParticleBackground() {
             vx: number;
             vy: number;
             radius: number;
+            glow: boolean;
 
             constructor() {
                 this.x = Math.random() * window.innerWidth;
@@ -58,7 +59,15 @@ export default function ParticleBackground() {
                 this.vx = (Math.random() - 0.5) * 0.35;
                 this.vy = (Math.random() - 0.5) * 0.35;
 
-                this.radius = Math.random() * 1.6 + 1;
+                const r = Math.random();
+
+                if (r < 0.08) {
+                    this.radius = 5 + Math.random() * 2;
+                    this.glow = true;
+                } else {
+                    this.radius = 2 + Math.random();
+                    this.glow = Math.random() < 0.18;
+                }
             }
 
             update() {
@@ -75,11 +84,27 @@ export default function ParticleBackground() {
             draw() {
                 ctx.beginPath();
 
-                ctx.fillStyle = "rgba(255,255,255,.85)";
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = "rgba(255,255,255,.25)";
+                ctx.fillStyle = "rgba(255,255,255,0.9)";
 
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                if (this.glow) {
+                    ctx.fillStyle = "rgba(255,255,255,0.95)";
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "rgba(255,255,255,0.4)";
+                } else {
+                    ctx.fillStyle = "rgba(255,255,255,0.75)";
+                }
+                const scale =
+                    this.glow
+                        ? 1 + Math.sin(performance.now() * 0.001 + this.x) * 0.12
+                        : 1;
+
+                ctx.arc(
+                    this.x,
+                    this.y,
+                    this.radius * scale,
+                    0,
+                    Math.PI * 2
+                );
 
                 ctx.fill();
 
@@ -104,9 +129,6 @@ export default function ParticleBackground() {
 
             if (dist > maxDistance) return;
 
-
-            // const t = dist / maxDistance;
-            // const opacity = Math.pow(1 - t, 4) * 0.9;
             const t = dist / maxDistance;
 
             const pulse =
@@ -132,8 +154,12 @@ export default function ParticleBackground() {
 
 
         const animate = () => {
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
 
             if (
                 mouse.x !== null &&
@@ -156,31 +182,31 @@ export default function ParticleBackground() {
                 ctx.lineJoin = "round";
                 particles[i].draw();
 
-               if (mouse.x !== null && mouse.y !== null) {
-    for (let j = i + 1; j < particles.length; j++) {
+                if (mouse.x !== null && mouse.y !== null) {
+                    for (let j = i + 1; j < particles.length; j++) {
 
-        const d1 = Math.hypot(
-            particles[i].x - mouse.x,
-            particles[i].y - mouse.y
-        );
+                        const d1 = Math.hypot(
+                            particles[i].x - mouse.x,
+                            particles[i].y - mouse.y
+                        );
 
-        const d2 = Math.hypot(
-            particles[j].x - mouse.x,
-            particles[j].y - mouse.y
-        );
+                        const d2 = Math.hypot(
+                            particles[j].x - mouse.x,
+                            particles[j].y - mouse.y
+                        );
 
-        if (
-            d1 < CURSOR_DISTANCE &&
-            d2 < CURSOR_DISTANCE
-        ) {
-            connect(
-                particles[i],
-                particles[j],
-                LINK_DISTANCE
-            );
-        }
-    }
-}
+                        if (
+                            d1 < CURSOR_DISTANCE &&
+                            d2 < CURSOR_DISTANCE
+                        ) {
+                            connect(
+                                particles[i],
+                                particles[j],
+                                LINK_DISTANCE
+                            );
+                        }
+                    }
+                }
 
                 if (mouse.x !== null && mouse.y !== null) {
                     connect(
@@ -228,7 +254,6 @@ export default function ParticleBackground() {
     return (
         <canvas
             ref={canvasRef}
-            // className="fixed inset-0 -z-10 h-full w-full bg-[#050505]"
             className="fixed inset-0 z-0 h-full w-full"
         />
     );
