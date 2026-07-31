@@ -1,9 +1,15 @@
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+});
+
 export default function Hero() {
     return (
         <section className="relative z-10 flex min-h-screen items-center justify-center px-6">
             <div className="mx-auto mt-auto flex max-w-4xl flex-col items-center text-center">
 
-                <h1 className="select-none  mt-16 sm:mt-24 text-8xl font-thin text-white sm:text-8xl md:text-[9rem] lg:text-[11rem] ">
+                <h1 className={`${outfit.className} select-none  mt-16 sm:mt-24 text-8xl font-light text-white sm:text-8xl md:text-[9rem] lg:text-[11rem] `} >
                     Lucid
                 </h1>
 

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Google_Sans } from "next/font/google";
 import "./globals.css";
 
+import { Outfit } from "next/font/google";
 
+const outfit = Outfit({
+  subsets: ["latin"],
+});
 
 const geist = Geist({
   subsets: ["latin"],
@@ -23,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={google_Sans.className}>
+      <body className={`bg-[#050505] text-white ${google_Sans.className}`}>
         {children}
       </body>
     </html>
