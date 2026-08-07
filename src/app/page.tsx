@@ -1,11 +1,23 @@
-import ParticleBackground from "@/components/backgrounds/ParticleBackground";
-import Hero from "@/components/hero/Hero";
+import ParticleBackground from "@/components/ParticleBackground";
+import Hero from "@/components/Hero";
+import ScrollVideoReveal from "@/components/ScrollVideoReveal";
+import Impact from "@/components/sections/Impact/Impact";
 
 export default function Home() {
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#050505]">
+    <>
       <ParticleBackground />
-      <Hero />
-    </main>
+
+      <main className="relative z-10">
+        <Hero />
+        <ScrollVideoReveal />
+        <Impact />
+
+        <section className="mx-auto max-w-7xl px-6 py-10">
+          ...
+        </section>
+      </main>
+    </>
   );
 }
