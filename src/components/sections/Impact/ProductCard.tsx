@@ -7,8 +7,8 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Star, ShieldCheck } from "lucide-react";
-import { useRef } from "react";
+import { Star, ShieldCheck, ArrowRightLeft } from "lucide-react";
+import { useRef, useState } from "react";
 
 interface Product {
   id: string;
@@ -43,13 +43,13 @@ function ProductTile({
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 150, damping: 18 });
-  const springY = useSpring(mouseY, { stiffness: 150, damping: 18 });
-  const rotateX = useTransform(springY, [-0.5, 0.5], flat ? [0, 0] : [6, -6]);
+  const springX = useSpring(mouseX, { stiffness: 200, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 200, damping: 20 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], flat ? [0, 0] : [10, -10]);
   const rotateYTilt = useTransform(
     springX,
     [-0.5, 0.5],
-    flat ? [0, 0] : [-6, 6]
+    flat ? [0, 0] : [-10, 10]
   );
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
@@ -70,41 +70,60 @@ function ProductTile({
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay }}
       style={{ rotateX, rotateY: rotateYTilt, transformStyle: "preserve-3d" }}
-      whileHover={{ scale: 1.03 }}
-      className="group relative w-[240px] shrink-0 overflow-hidden rounded-[28px] sm:w-[270px] lg:w-[300px] lg:rounded-[32px]"
+      whileHover={{ scale: 1.02 }}
+      className="group relative w-[240px] shrink-0 sm:w-[270px] lg:w-[290px]"
     >
       <div
-        className="relative rounded-[28px] lg:rounded-[32px]"
+        className="absolute inset-0 rounded-[28px] lg:rounded-[32px] bg-black/40 blur-xl"
+        style={{
+          transform: "translateZ(-40px)",
+        }}
+      />
+
+      {Array.from({ length: 12 }).map((_, idx) => (
+        <div
+          key={idx}
+          className="absolute inset-0 rounded-[28px] lg:rounded-[32px]"
+          style={{
+            background: idx === 11 ? "#a3a3a3" : "#d4d4d4",
+            transform: `translateZ(${-idx * 2 - 2}px)`,
+            border: "1px solid rgba(0,0,0,0.03)",
+          }}
+        />
+      ))}
+
+      <div
+        className="relative rounded-[28px] lg:rounded-[32px] overflow-hidden"
         style={{
           background: highlight
             ? "radial-gradient(120% 90% at 15% 0%, #eef6ef 0%, #ffffff 55%)"
             : "linear-gradient(180deg, #ffffff 0%, #f6f6f5 100%)",
-          boxShadow:
-            "0 45px 90px -20px rgba(0,0,0,0.55), 0 12px 30px -10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.7)",
+          border: "1px solid rgba(255,255,255,0.8)",
+          transform: "translateZ(0px)",
         }}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 rounded-t-[28px] bg-gradient-to-b from-white/60 to-transparent lg:rounded-t-[32px]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 rounded-t-[28px] bg-gradient-to-b from-white/90 to-transparent lg:rounded-t-[32px]" />
 
         <div className="relative z-10 px-5 pt-5 sm:px-6 sm:pt-6">
-          <span className="inline-block rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold text-zinc-700 shadow-[0_2px_8px_rgba(0,0,0,0.08)] sm:px-3.5 sm:text-xs">
+          <span className="inline-block rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold text-[#2f6f43] shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:px-3.5 sm:text-xs">
             {badge}
           </span>
         </div>
 
         <div
           className="relative mx-auto mt-4 h-[160px] w-[160px] sm:mt-5 sm:h-[190px] sm:w-[190px] lg:h-[210px] lg:w-[210px]"
-          style={{ transform: flat ? undefined : "translateZ(30px)" }}
+          style={{ transform: flat ? undefined : "translateZ(50px)" }}
         >
           <Image
             src={image}
             alt={title}
             fill
-            className="object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)] transition-transform duration-500 group-hover:scale-105"
+            className="object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-110"
           />
         </div>
 
@@ -192,40 +211,68 @@ const products: Product[] = [
   },
 ];
 
-const ROTATE_STEP_DEG = 8;
-const DEPTH_STEP_PX = 70;
-
 export default function ProductCard() {
+  const [isOpen, setIsOpen] = useState(false);
+  const lastIndex = products.length - 1;
+
   return (
     <>
-      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pl-1 pr-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-8 pl-4 pr-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
         {products.map((product, i) => (
-          <div key={product.id} className="snap-center">
+          <div key={product.id} className="snap-center py-4">
             <ProductTile {...product} delay={i * 0.08} flat />
           </div>
         ))}
       </div>
 
       <div
-        className="relative hidden items-center justify-center lg:flex"
-        style={{ perspective: 2200 }}
+        className="relative hidden items-center justify-start lg:flex h-[550px] w-full pl-10 pt-10"
+        style={{ perspective: 2400 }}
       >
-        <div className="flex" style={{ transformStyle: "preserve-3d" }}>
+        <div className="relative w-full h-full flex items-center" style={{ transformStyle: "preserve-3d" }}>
           {products.map((product, i) => (
-            <div
+            <motion.div
               key={product.id}
-              className="mr-4 last:mr-0"
+              initial={false}
+              animate={{
+                x: isOpen ? i * 240 : i * 75,
+                y: isOpen ? i * 15 : i * 2,
+                z: isOpen ? -i * 80 : -i * 20,
+                rotateY: isOpen ? 10 + (i * 3) : 22,
+                rotateX: isOpen ? 4 : 8,
+                rotateZ: isOpen ? -2 : 0,
+              }}
+              transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.9 }}
+              className="absolute left-0 transform-gpu"
               style={{
-                transformStyle: "preserve-3d",
-                transform: `translateZ(${-i * DEPTH_STEP_PX}px) rotateY(${
-                  i * ROTATE_STEP_DEG
-                }deg)`,
                 zIndex: products.length - i,
+                transformStyle: "preserve-3d",
               }}
             >
-              <ProductTile {...product} delay={i * 0.12} />
-            </div>
+              <ProductTile {...product} delay={0} />
+            </motion.div>
           ))}
+
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            initial={false}
+            animate={{
+              x: isOpen ? (lastIndex * 240) + 260 - 50 : (lastIndex * 75) + 260,
+              y: isOpen ? (lastIndex * 15) : (lastIndex * 2),
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.9 }}
+            className="absolute left-0 top-[45%] z-50 flex h-[60px] w-[60px] -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-900 shadow-[0_15px_40px_rgba(0,0,0,0.6)] border border-zinc-200"
+            style={{ transform: "translateZ(80px)" }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            >
+              <ArrowRightLeft className="h-7 w-7" />
+            </motion.div>
+          </motion.button>
         </div>
       </div>
     </>

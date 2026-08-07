@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRef, useState } from "react";
@@ -33,13 +32,13 @@ const reviews: Review[] = [
     logo: "/amazon.png",
     icon: "battery",
     base: {
-      top: "-20px",
-      left: "30px",
-      rotateZ: 7,
-      rotateX: 10,
-      rotateY: -14,
-      z: 60,
-      width: "20rem",
+      top: "10px",
+      left: "40px",
+      rotateZ: 6,
+      rotateX: 12,
+      rotateY: -18,
+      z: 80,
+      width: "22rem",
     },
   },
   {
@@ -51,13 +50,13 @@ const reviews: Review[] = [
     logo: "/reddit.png",
     icon: "sound",
     base: {
-      top: "220px",
-      left: "-20px",
-      rotateZ: -5,
-      rotateX: 8,
-      rotateY: 12,
-      z: 20,
-      width: "20rem",
+      top: "230px",
+      left: "-30px",
+      rotateZ: -4,
+      rotateX: 10,
+      rotateY: 15,
+      z: 30,
+      width: "22rem",
     },
   },
   {
@@ -69,13 +68,13 @@ const reviews: Review[] = [
     logo: "/flipkart.png",
     icon: "gem",
     base: {
-      top: "450px",
-      left: "25px",
-      rotateZ: 6,
-      rotateX: 6,
-      rotateY: -8,
+      top: "470px",
+      left: "30px",
+      rotateZ: 5,
+      rotateX: 8,
+      rotateY: -10,
       z: 0,
-      width: "20rem",
+      width: "22rem",
     },
   },
 ];
@@ -87,11 +86,11 @@ function Stars({ rating }: { rating: number }) {
       {items.map((n) => {
         const fill = rating >= n ? 1 : rating >= n - 0.5 ? 0.5 : 0;
         return (
-          <svg key={n} viewBox="0 0 20 20" className="h-[17px] w-[17px]">
+          <svg key={n} viewBox="0 0 20 20" className="h-[15px] w-[15px]">
             <defs>
               <linearGradient id={`star-${n}-${rating}`} x1="0" x2="1">
                 <stop offset={`${fill * 100}%`} stopColor="#4caf6d" />
-                <stop offset={`${fill * 100}%`} stopColor="#3a3a3a" />
+                <stop offset={`${fill * 100}%`} stopColor="#d1d1d1" />
               </linearGradient>
             </defs>
             <path
@@ -101,7 +100,7 @@ function Stars({ rating }: { rating: number }) {
           </svg>
         );
       })}
-      <span className="ml-1 text-sm font-medium text-[#8b8b8d]">
+      <span className="ml-2 text-sm font-semibold text-zinc-500">
         {rating.toFixed(1)}
       </span>
     </div>
@@ -111,16 +110,8 @@ function Stars({ rating }: { rating: number }) {
 function BadgeIcon({ icon }: { icon: Review["icon"] }) {
   if (icon === "battery") {
     return (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <rect
-          x="4"
-          y="7"
-          width="14"
-          height="10"
-          rx="2"
-          stroke="#eafff0"
-          strokeWidth="1.6"
-        />
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+        <rect x="4" y="7" width="14" height="10" rx="2" stroke="#eafff0" strokeWidth="1.6" />
         <rect x="19" y="10" width="2" height="4" rx="0.6" fill="#eafff0" />
         <rect x="6.3" y="9.3" width="9.4" height="5.4" rx="1" fill="#4caf6d" />
       </svg>
@@ -128,26 +119,15 @@ function BadgeIcon({ icon }: { icon: Review["icon"] }) {
   }
   if (icon === "sound") {
     return (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
         <path d="M4 10v4h3l4 4V6L7 10H4z" fill="#eafff0" />
-        <path
-          d="M15.5 9.2c1.1 1 1.1 4.6 0 5.6"
-          stroke="#eafff0"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M18 7.2c2.3 2 2.3 7.6 0 9.6"
-          stroke="#eafff0"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
+        <path d="M15.5 9.2c1.1 1 1.1 4.6 0 5.6" stroke="#eafff0" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M18 7.2c2.3 2 2.3 7.6 0 9.6" stroke="#eafff0" strokeWidth="1.4" strokeLinecap="round" opacity="0.7" />
       </svg>
     );
   }
   return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
       <path d="M6 9l3-4h6l3 4-6 9-6-9z" fill="#eafff0" />
       <path d="M6 9h12" stroke="#0e2a1c" strokeWidth="0.8" />
     </svg>
@@ -157,21 +137,18 @@ function BadgeIcon({ icon }: { icon: Review["icon"] }) {
 function CardFace({ review }: { review: Review }) {
   return (
     <div
-      className="relative rounded-[26px] p-6 pb-5"
+      className="relative rounded-[20px] p-6 pb-5"
       style={{
-        background: "linear-gradient(180deg, #fbfbfa 0%, #efefec 100%)",
-        border: "1px solid rgba(255,255,255,0.5)",
-        boxShadow:
-          "0 40px 70px rgba(0,0,0,0.65), 0 10px 25px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6)",
+        background: "linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%)",
+        border: "1px solid rgba(255,255,255,0.8)",
+        boxShadow: "inset 0 1px 2px rgba(255,255,255,1)",
       }}
     >
       <div
-        className="absolute right-[22px] top-[22px] flex h-[52px] w-[52px] items-center justify-center rounded-full"
+        className="absolute right-[20px] top-[20px] flex h-[44px] w-[44px] items-center justify-center rounded-full"
         style={{
-          background:
-            "radial-gradient(circle at 32% 28%, #1c5a3a, #0e2a1c 60%, #071c12 100%)",
-          boxShadow:
-            "0 6px 14px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.15)",
+          background: "radial-gradient(circle at 30% 30%, #1c5a3a, #0e2a1c 70%, #071c12 100%)",
+          boxShadow: "0 8px 16px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.2)",
         }}
       >
         <BadgeIcon icon={review.icon} />
@@ -179,24 +156,24 @@ function CardFace({ review }: { review: Review }) {
 
       <Stars rating={review.rating} />
 
-      <h3 className="mb-3 pr-14 text-[22px] font-bold tracking-tight text-[#17181a]">
+      <h3 className="mb-2 pr-12 text-[20px] font-bold tracking-tight text-zinc-900">
         {review.title}
       </h3>
 
-      <p className="mb-5 pr-2 text-[15px] leading-relaxed text-[#3d3d3f]">
+      <p className="mb-6 pr-2 text-[14px] leading-relaxed text-zinc-600">
         {review.body}
       </p>
 
       <div className="flex items-center justify-between">
-        <span className="text-[13px] font-medium text-[#7a7a7d]">
+        <span className="text-[12px] font-medium text-zinc-400">
           {review.meta}
         </span>
-        <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white shadow-[0_4px_10px_rgba(0,0,0,.18)]">
+        <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
           <Image
             src={review.logo}
             alt={review.meta}
-            width={22}
-            height={22}
+            width={18}
+            height={18}
             className="object-contain"
           />
         </div>
@@ -218,23 +195,28 @@ function FloatingCard({
 
   return (
     <div
-      className="preserve-3d absolute transition-transform duration-300 ease-out"
+      className="absolute transition-transform duration-300 ease-out"
       style={{
         top: base.top,
         left: base.left,
         width: base.width,
+        transformStyle: "preserve-3d",
         transform: `translateZ(${base.z}px) rotateZ(${base.rotateZ}deg) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
       }}
     >
       <div
-        className="absolute inset-0 rounded-[26px] bg-[#111114]"
-        style={{ transform: "translateZ(-9px)" }}
+        className="absolute inset-0 rounded-[20px] bg-[#d4d4d4]"
+        style={{ transform: "translateZ(-14px)", boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}
       />
+      
       <div
-        className="absolute inset-0 rounded-[26px] bg-[#1a1b1d]"
-        style={{ transform: "translateZ(-5px)" }}
+        className="absolute inset-0 rounded-[20px] bg-[#e8e8e8]"
+        style={{ transform: "translateZ(-7px)" }}
       />
-      <CardFace review={review} />
+      
+      <div style={{ transform: "translateZ(0px)" }}>
+        <CardFace review={review} />
+      </div>
     </div>
   );
 }
@@ -249,7 +231,7 @@ export default function ReviewCards() {
     const rect = stage.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width - 0.5;
     const py = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: px * 10, y: py * -10 });
+    setTilt({ x: px * 15, y: py * -15 });
   }
 
   function handleMouseLeave() {
@@ -258,10 +240,13 @@ export default function ReviewCards() {
 
   return (
     <>
-      <div className="flex flex-col gap-6 lg:hidden">
+      <div className="flex flex-col gap-6 lg:hidden py-10 px-4">
         {reviews.map((review) => (
-          <div key={review.id} className="mx-auto w-full max-w-sm">
-            <CardFace review={review} />
+          <div key={review.id} className="mx-auto w-full max-w-sm" style={{ transformStyle: "preserve-3d" }}>
+             <div className="relative">
+                <div className="absolute inset-0 rounded-[20px] bg-[#d4d4d4] translate-y-2 translate-x-1" />
+                <CardFace review={review} />
+             </div>
           </div>
         ))}
       </div>
@@ -270,9 +255,10 @@ export default function ReviewCards() {
         ref={stageRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative hidden h-full w-full overflow-visible lg:block"
+        className="relative hidden h-[700px] w-full overflow-visible lg:block"
+        style={{ perspective: 1500 }}
       >
-        <div className="preserve-3d relative h-full w-full">
+        <div className="relative h-full w-full" style={{ transformStyle: "preserve-3d" }}>
           {reviews.map((review) => (
             <FloatingCard key={review.id} review={review} tilt={tilt} />
           ))}
