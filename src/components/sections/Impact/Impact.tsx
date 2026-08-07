@@ -7,61 +7,34 @@ import StatsBar from "./StatsBar";
 
 export default function Impact() {
   return (
-    <section className="relative overflow-hidden bg-black py-40">
-
+    <section className="relative overflow-hidden bg-black pt-20 pb-20">
       <div className="absolute inset-0">
+        <div className="absolute -left-44 top-32 h-[720px] w-[720px] rounded-full bg-emerald-500/10 blur-[220px]" />
 
-        <div
-          className="
-            absolute
-            left-0
-            top-20
-            h-[500px]
-            w-[500px]
-            rounded-full
-            bg-emerald-500/10
-            blur-[180px]
-          "
-        />
+        <div className="absolute -right-52 -top-40 h-[820px] w-[820px] rounded-full bg-blue-500/10 blur-[260px]" />
 
-        <div
-          className=" absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-blue-500/10 blur-[200px]"
-        />
-
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.03]
-
-            bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]
-
-            bg-[size:80px_80px]
-          "
-        />
-
+        <div className="absolute inset-0 opacity-[0.025] bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:90px_90px]" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1500px] px-8">
+      <div className="relative z-10 mx-auto max-w-[1700px] px-10">
+        <div className="grid grid-cols-[1fr_360px] gap-12">
+          <div>
+            <LeftContent />
 
-        <div className="grid items-center gap-20 lg:grid-cols-2">
-
-          <LeftContent />
-
-          <div className="relative h-[720px]">
-
-            <ProductCards />
-
-            <ReviewCards />
-
+            <div className="relative mt-20 h-[430px] overflow-visible">
+              <ProductCards />
+            </div>
           </div>
 
+          <div className="relative h-[760px]">
+            <ReviewCards />
+          </div>
         </div>
 
-        <StatsBar />
-
+        <div className="mt-14">
+          <StatsBar />
+        </div>
       </div>
-
     </section>
   );
 }
