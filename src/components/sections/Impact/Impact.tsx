@@ -8,7 +8,7 @@ import StatsBar from "./StatsBar";
 
 export default function Impact() {
   return (
-    <section className="relative overflow-hidden bg-black pb-20 pt-20">
+    <section className="relative overflow-hidden bg-black pb-20 pt-20 select-none">
       <div className="absolute inset-0">
         <div className="absolute -left-44 top-32 h-[720px] w-[720px] rounded-full bg-emerald-500/10 blur-[220px]" />
         <div className="absolute -right-52 -top-40 h-[820px] w-[820px] rounded-full bg-blue-500/10 blur-[260px]" />

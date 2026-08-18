@@ -23,7 +23,7 @@ export default function ScrollVideoReveal() {
     const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
 
     return (
-        <section ref={ref} className="relative h-[220vh] bg-black">
+        <section ref={ref} className="relative h-[220vh] bg-black select-none">
             <div className="sticky top-0 flex min-h-screen items-center justify-center px-8 py-12">
                 <motion.div
                     style={{
