@@ -4,6 +4,7 @@ import ScrollVideoReveal from "@/components/ScrollVideoReveal";
 import Impact from "@/components/sections/Impact/Impact";
 import HowLucidWorks from "@/components/HowLucidWorks";
 import LucidOverview from "@/components/LucidOverview";
+import { TrustAndStatsSection, CTASection } from "@/components/CTASection";
 export default function Home() {
 
   return (
@@ -15,6 +16,8 @@ export default function Home() {
         <Impact/>
         <HowLucidWorks/>
         <LucidOverview/>
+        <TrustAndStatsSection/>
+        <CTASection/>
 
     </>
   );
