@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import ScrollVideoReveal from "@/components/ScrollVideoReveal";
 import Impact from "@/components/sections/Impact/Impact";
 import HowLucidWorks from "@/components/HowLucidWorks";
+import LucidOverview from "@/components/LucidOverview";
 export default function Home() {
 
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <ScrollVideoReveal />
         <Impact/>
         <HowLucidWorks/>
+        <LucidOverview/>
 
     </>
   );
