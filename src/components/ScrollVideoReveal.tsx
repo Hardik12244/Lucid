@@ -93,7 +93,7 @@ export default function ScrollVideoReveal() {
                                         className="relative z-10 aspect-video w-full object-cover"
                                     >
                                         <source
-                                            src="/Vihaan-Gather.mp4"
+                                            src="/Lucid1.mp4"
                                             type="video/mp4"
                                         />
                                     </video>
