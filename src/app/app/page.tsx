@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AppNavbar from "@/components/app/AppNavbar";
 import ProductCard from "@/components/app/ProductCard";
+import { image } from "framer-motion/client";
 
 const filters = [
   "All",
@@ -17,9 +18,10 @@ const filters = [
 const mockProducts = [
   {
     id: 1,
-    title: "Dashboard Pro Kit",
-    brand: "UI Foundry",
-    category: "Template",
+    image:"/sony.png",
+    title: "Headphones",
+    brand: "Sony",
+    category: "Electronics",
     price: "$49",
     rating: 4.8,
     confidence: 96,
