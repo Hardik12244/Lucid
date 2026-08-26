@@ -1,4 +1,6 @@
 import AppNavbar from "@/components/app/AppNavbar";
+import Footer from "@/components/Footer";
+import AskLucid from "@/components/result/AskLucid";
 import HistoryAnalytics from "@/components/result/HistoryAnalytics";
 import ProductVerdict from "@/components/result/ProductVerdict";
 import RatingAnalytics from "@/components/result/RatingAnalytics";
@@ -15,6 +17,8 @@ export default function ResultPage() {
         <RealWorldExperience/>
         <HistoryAnalytics/>
         <SourcesAndEvidence/>
+        <AskLucid/>
+        <Footer/>
       </div>
     </main>
   );
