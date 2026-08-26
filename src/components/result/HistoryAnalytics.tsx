@@ -44,13 +44,13 @@ export default function HistoryAnalytics() {
       variants={containerVariants}
       className="mx-auto mt-24 w-full max-w-6xl rounded-3xl border border-white/[0.08] bg-[#0c0c0e] p-8 font-sans text-white shadow-2xl sm:p-12 lg:mt-32"
     >
-      <motion.div variants={itemVariants} className="flex flex-col gap-5">
-        <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-zinc-400 sm:text-sm">
-          <span className="rounded bg-white/10 px-3 py-1.5 text-white">05</span>
-          HISTORY
+    <motion.div variants={itemVariants} className="flex flex-col gap-5">
+        <div className="flex items-center gap-3 font-tag text-[11px] font-medium tracking-[0.22em] text-zinc-400 sm:text-xs">
+          <span className="rounded-sm border border-[#6fce7b]/40 bg-[#6fce7b]/10 px-2.5 py-1 text-[#6fce7b]">SECTION 05</span>
+          <span>HISTORY</span>
         </div>
         <div>
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="font-dossier text-3xl font-medium tracking-tight text-white sm:text-4xl">
             What changed over time?
           </h2>
           <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-400 sm:text-lg">
