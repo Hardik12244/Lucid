@@ -1,5 +1,6 @@
 import ProductVerdict from "@/components/result/ProductVerdict";
 import RatingAnalytics from "@/components/result/RatingAnalytics";
+import RealWorldExperience from "@/components/result/RealWorldExperience";
 
 export default function ResultPage() {
   return (
@@ -7,6 +8,7 @@ export default function ResultPage() {
       <div className="mx-auto max-w-7xl">
         <ProductVerdict/>
         <RatingAnalytics/>
+        <RealWorldExperience/>
       </div>
     </main>
   );
