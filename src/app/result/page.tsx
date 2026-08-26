@@ -1,3 +1,4 @@
+import HistoryAnalytics from "@/components/result/HistoryAnalytics";
 import ProductVerdict from "@/components/result/ProductVerdict";
 import RatingAnalytics from "@/components/result/RatingAnalytics";
 import RealWorldExperience from "@/components/result/RealWorldExperience";
@@ -9,6 +10,7 @@ export default function ResultPage() {
         <ProductVerdict/>
         <RatingAnalytics/>
         <RealWorldExperience/>
+        <HistoryAnalytics/>
       </div>
     </main>
   );
