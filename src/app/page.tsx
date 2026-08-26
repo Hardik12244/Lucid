@@ -1,11 +1,11 @@
-import ParticleBackground from "@/components/ParticleBackground";
-import Hero from "@/components/Hero";
-import ScrollVideoReveal from "@/components/ScrollVideoReveal";
-import Impact from "@/components/sections/Impact/Impact";
-import HowLucidWorks from "@/components/HowLucidWorks";
-import LucidOverview from "@/components/LucidOverview";
-import { TrustAndStatsSection, CTASection } from "@/components/CTASection";
-import Footer from "@/components/Footer";
+import ParticleBackground from "@/components/LandingPageComponents/ParticleBackground";
+import Hero from "@/components/LandingPageComponents/Hero";
+import ScrollVideoReveal from "@/components/LandingPageComponents/ScrollVideoReveal";
+import Impact from "@/components/LandingPageComponents/Impact/Impact";
+import HowLucidWorks from "@/components/LandingPageComponents/HowLucidWorks";
+import LucidOverview from "@/components/LandingPageComponents/LucidOverview";
+import { TrustAndStatsSection, CTASection } from "@/components/LandingPageComponents/CTASection";
+import Footer from "@/components/LandingPageComponents/Footer";
 export default function Home() {
 
   return (

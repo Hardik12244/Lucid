@@ -2,8 +2,8 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
-import LucidSearchCard from "./ui/LucidSearchCard";
-import FloatingDots from "./ui/FloatingDots";
+import LucidSearchCard from "../ui/LucidSearchCard";
+import FloatingDots from "../ui/FloatingDots";
 
 
 const sources = [
