@@ -10,6 +10,13 @@
 !.yarn/releases
 !.yarn/versions
 
+node_modules/
+.next/
+dist/
+.env
+.env.*
+!.env.example
+
 # testing
 /coverage
 
