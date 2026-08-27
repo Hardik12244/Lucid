@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AppNavbar from "@/components/app/AppNavbar";
 import ProductCard from "@/components/app/ProductCard";
-import { image } from "framer-motion/client";
+import Footer from "@/components/Footer";
 
 const filters = [
   "All",
@@ -74,7 +74,7 @@ const fadeUp = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
@@ -199,7 +199,7 @@ export default function HomePage() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{
             duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 1, 0.36, 1] as const,
           }}
           className="relative z-10 border-t border-white/[0.08] pt-12"
         >
@@ -234,6 +234,7 @@ export default function HomePage() {
           </motion.div>
         </motion.section>
       </main>
+          <Footer/>
     </div>
   );
 }

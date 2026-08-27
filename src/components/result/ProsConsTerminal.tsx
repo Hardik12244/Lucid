@@ -92,7 +92,7 @@ export default function ProsConsScrollReveal({
                   
                   <div className="p-2 sm:p-4">
                     <Terminal>
-                      <TypingAnimation>&gt; Initializing positive sentiment engine...</TypingAnimation>
+                      <TypingAnimation duration={20}>&gt; Initializing positive sentiment engine...</TypingAnimation>
 
                       <AnimatedSpan className="text-zinc-500">
                         ✔ Scraping 4 & 5 star verified feedback.
@@ -110,7 +110,7 @@ export default function ProsConsScrollReveal({
                         </AnimatedSpan>
                       ))}
 
-                      <TypingAnimation className="mt-4 text-zinc-400">
+                      <TypingAnimation duration={20} className="mt-4 text-zinc-400">
                         Strengths analysis complete.
                       </TypingAnimation>
                     </Terminal>
@@ -123,7 +123,7 @@ export default function ProsConsScrollReveal({
                   
                   <div className="p-2 sm:p-4">
                     <Terminal>
-                      <TypingAnimation>&gt; Initializing critical sentiment engine...</TypingAnimation>
+                      <TypingAnimation duration={20}>&gt; Initializing critical sentiment engine...</TypingAnimation>
 
                       <AnimatedSpan className="text-zinc-500">
                         ✔ Scraping 1 & 2 star verified feedback.
@@ -141,7 +141,7 @@ export default function ProsConsScrollReveal({
                         </AnimatedSpan>
                       ))}
 
-                      <TypingAnimation className="mt-4 text-zinc-400">
+                      <TypingAnimation duration={20} className="mt-4 text-zinc-400">
                         Weaknesses analysis complete.
                       </TypingAnimation>
                     </Terminal>

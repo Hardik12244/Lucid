@@ -1,82 +1,127 @@
 "use client";
 
-import { Heart, Mail } from "lucide-react";
+import Link from "next/link";
+import { Heart, Sparkles } from "lucide-react";
 
-const TwitterIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    className={className}
-  >
-    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-  </svg>
-);
+const productLinks = [
+  { label: "How it works", href: "/how-it-works" },
+  { label: "Features", href: "/features" },
+  { label: "Compare", href: "/compare" },
+];
 
-const GithubIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    className={className}
-  >
-    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-  </svg>
-);
+const companyLinks = [
+  { label: "About us", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Careers", href: "/careers" },
+];
+
+const resourceLinks = [
+  { label: "Help Center", href: "/help" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+];
+
+const socialLinks = [
+  {
+    label: "X",
+    href: "https://x.com",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+        <path d="M23.498 6.186a2.994 2.994 0 00-2.107-2.12C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.391.521A2.994 2.994 0 00.502 6.186 31.26 31.26 0 000 12a31.26 31.26 0 00.502 5.814 2.994 2.994 0 002.107 2.12c1.886.521 9.391.521 9.391.521s7.505-.521 9.391-.521a2.994 2.994 0 002.107-2.12A31.26 31.26 0 0024 12a31.26 31.26 0 00-.502-5.814zM9.75 15.568V8.432L15.818 12z" />
+      </svg>
+    ),
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 110-4.124 2.062 2.062 0 010 4.124zM7.114 20.452H3.558V9h3.556v11.452z" />
+      </svg>
+    ),
+  },
+];
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-white">{title}</h3>
+
+      <ul className="mt-4 space-y-3">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              href={link.href}
+              className="text-sm text-neutral-400 transition-colors hover:text-white"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer 
-      className="mx-auto mt-24 w-full max-w-6xl border-t border-white/[0.08] bg-[#0c0c0e] pt-16 pb-8 text-white sm:mt-32"
-      style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-        .font-dossier { font-family: 'Fraunces', ui-serif, Georgia, serif; }
-        .font-tag { font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace; }
-      `}</style>
+    <footer className="relative mt-16 border-t border-white/10 bg-black text-white">
+      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <Link href="/" className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-lime-400" />
+              <span className="text-3xl font-semibold tracking-tight">
+                Lucid
+              </span>
+            </Link>
 
-      <div className="grid gap-12 px-6 sm:grid-cols-2 sm:px-12 lg:grid-cols-4">
-        <div className="flex flex-col gap-5 lg:col-span-2">
-          <span className="font-dossier text-2xl font-semibold tracking-tight text-white">Lucid.</span>
-          <p className="max-w-sm text-[14px] leading-relaxed text-zinc-400">
-            Objective, evidence-based product analysis powered by AI. We read the internet so you don't have to.
-          </p>
-          <div className="mt-2 flex items-center gap-5 text-zinc-500">
-            <a href="#" className="transition-colors hover:text-[#6fce7b]">
-              <TwitterIcon className="h-4 w-4" />
-            </a>
-            <a href="#" className="transition-colors hover:text-[#6fce7b]">
-              <GithubIcon className="h-4 w-4" />
-            </a>
-            <a href="#" className="transition-colors hover:text-[#6fce7b]">
-              <Mail className="h-4 w-4" />
-            </a>
+            <p className="mt-4 max-w-xs text-sm leading-6 text-neutral-400">
+              AI-powered product research for smarter decisions.
+            </p>
           </div>
+
+          <FooterColumn title="Product" links={productLinks} />
+          <FooterColumn title="Company" links={companyLinks} />
+          <FooterColumn title="Resources" links={resourceLinks} />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <h4 className="font-tag text-[11px] font-semibold tracking-[0.2em] text-zinc-500 uppercase">Product</h4>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Methodology</a>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Categories</a>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Request Analysis</a>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Pricing</a>
-        </div>
+        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row">
+          <p className="flex items-center gap-1.5 text-sm text-neutral-400">
+            Made with
+            <Heart className="h-4 w-4 fill-lime-400 text-lime-400" />
+            by Hardik
+          </p>
 
-        <div className="flex flex-col gap-4">
-          <h4 className="font-tag text-[11px] font-semibold tracking-[0.2em] text-zinc-500 uppercase">Legal</h4>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Privacy Policy</a>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Terms of Service</a>
-          <a href="#" className="text-sm text-zinc-400 transition-colors hover:text-[#6fce7b]">Review Guidelines</a>
-        </div>
-      </div>
-
-      <div className="mt-16 flex flex-col items-center justify-between border-t border-white/[0.04] px-6 pt-8 sm:flex-row sm:px-12">
-        <p className="font-tag text-[11px] tracking-widest text-zinc-500 uppercase">
-          © {new Date().getFullYear()} LUCID ANALYSIS
-        </p>
-        
-        <div className="mt-6 flex items-center gap-2 font-tag text-[12px] text-zinc-400 sm:mt-0">
-          Made with <Heart className="h-4 w-4 fill-[#6fce7b] text-[#6fce7b]" /> by 
-          <a href="#" className="font-medium text-white transition-colors hover:text-[#6fce7b]">Hardik</a>
+          <div className="flex items-center gap-3">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

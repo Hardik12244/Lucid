@@ -5,7 +5,7 @@ import Impact from "@/components/LandingPageComponents/Impact/Impact";
 import HowLucidWorks from "@/components/LandingPageComponents/HowLucidWorks";
 import LucidOverview from "@/components/LandingPageComponents/LucidOverview";
 import { TrustAndStatsSection, CTASection } from "@/components/LandingPageComponents/CTASection";
-import Footer from "@/components/LandingPageComponents/Footer";
+import LandingPageFooter from "@/components/LandingPageComponents/LandingPageFooter";
 export default function Home() {
 
   return (
@@ -19,7 +19,7 @@ export default function Home() {
         <LucidOverview/>
         <TrustAndStatsSection/>
         <CTASection/>
-        <Footer/>
+        <LandingPageFooter/>
 
     </>
   );

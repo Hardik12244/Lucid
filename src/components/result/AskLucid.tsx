@@ -51,16 +51,20 @@ export default function AskLucid() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+const messagesContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping]);
+  const container = messagesContainerRef.current;
+
+  if (!container) return;
+
+  container.scrollTo({
+    top: container.scrollHeight,
+    behavior: "smooth",
+  });
+}, [messages, isTyping]);
+
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
@@ -158,7 +162,9 @@ export default function AskLucid() {
           </div>
         </div>
 
-        <div className="flex min-h-[400px] flex-col gap-8 overflow-y-auto p-6 sm:p-10">
+        <div 
+        ref={messagesContainerRef}
+        className="flex min-h-[400px] flex-col gap-8 overflow-y-auto p-6 sm:p-10">
           <AnimatePresence initial={false}>
             {messages.map((msg) => (
               <motion.div
@@ -233,7 +239,6 @@ export default function AskLucid() {
                 </div>
               </motion.div>
             )}
-            <div ref={messagesEndRef} />
           </AnimatePresence>
         </div>
 
