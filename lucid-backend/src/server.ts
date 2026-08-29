@@ -1,8 +1,13 @@
 import "dotenv/config";
 import app from "./app.js";
+import env from "./config/env";
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Lucid API running on port ${PORT}`);
+const server = app.listen(env.PORT, () => {
+  console.log(`Lucid API running on port ${env.PORT}`);
+});
+
+server.on("error", (error) => {
+  console.error("Server failed to start:", error);
+  process.exit(1);
 });

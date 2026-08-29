@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
+import productRoutes from "./routes/product.routes.js";
+import { errorHandler } from "./middleware/error.js";
+
 const app = express();
 
 app.use(helmet());
@@ -15,6 +18,11 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use("/api/products", productRoutes);
+
+app.use(errorHandler);
 
 app.get("/api/health", (_req, res) => {
   res.json({

@@ -1,12 +1,13 @@
 import "dotenv/config";
+import { z } from "zod";
 
-const port = Number(process.env.PORT);
+const envSchema = z.object({
+  PORT: z.coerce.number().default(5001),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
+});
 
-if (!port || Number.isNaN(port)) {
-  throw new Error("PORT must be a valid number");
-}
+const env = envSchema.parse(process.env);
 
-export const env = {
-  nodeEnv: process.env.NODE_ENV ?? "development",
-  port,
-};
+export default env;
