@@ -1,7 +1,57 @@
 generator client {
   provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  searches SearchHistory[]
+  saved    SavedProduct[]
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  name      String
+  brand     String?
+  category  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  searches SearchHistory[]
+  savedBy  SavedProduct[]
+}
+
+model SearchHistory {
+  id        String   @id @default(cuid())
+  query     String
+  createdAt DateTime @default(now())
+
+  userId    String
+  productId String?
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}
+
+model SavedProduct {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  productId String
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
 }
