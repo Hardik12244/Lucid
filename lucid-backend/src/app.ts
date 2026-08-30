@@ -3,7 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 
 import productRoutes from "./routes/product.routes.js";
-import { errorHandler } from "./middleware/error.js";
+import errorHandler from "./middleware/errorHandler.js";
+import searchRoutes from "./routes/search.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/products", productRoutes);
+app.use("/api/search", searchRoutes);
 
 app.use(errorHandler);
 
