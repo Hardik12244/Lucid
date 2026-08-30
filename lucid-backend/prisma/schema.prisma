@@ -14,6 +14,7 @@ model User {
 
   searches SearchHistory[]
   saved    SavedProduct[]
+  viewed   ViewedProduct[]
 }
 
 model Product {
@@ -27,6 +28,7 @@ model Product {
 
   searches SearchHistory[]
   savedBy  SavedProduct[]
+  viewedBy ViewedProduct[]
 }
 
 model SearchHistory {
@@ -37,8 +39,8 @@ model SearchHistory {
   userId    String
   productId String?
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
 
   @@index([userId, createdAt])
 }
@@ -54,4 +56,18 @@ model SavedProduct {
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
+}
+
+model ViewedProduct {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  productId String
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId, createdAt])
 }
