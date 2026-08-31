@@ -5,11 +5,26 @@ export async function createSearchHistory(
   query: string,
   productId?: string,
 ) {
+  if (productId) {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: productId,
+      },
+    });
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+  }
+
   return prisma.searchHistory.create({
     data: {
       userId,
       query,
       ...(productId !== undefined && { productId }),
+    },
+    include: {
+      product: true,
     },
   });
 }

@@ -4,6 +4,29 @@ export async function saveProduct(
   userId: string,
   productId: string,
 ) {
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  const existing = await prisma.savedProduct.findUnique({
+    where: {
+      userId_productId: {
+        userId,
+        productId,
+      },
+    },
+  });
+
+  if (existing) {
+    return existing;
+  }
+
   return prisma.savedProduct.create({
     data: {
       userId,

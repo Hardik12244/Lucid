@@ -3,13 +3,27 @@ import type {
   CreateProductInput,
   UpdateProductInput,
 } from "../validators/product.validator.js";
+import { getCache, setCache } from "./cache.service.js";
+import { deleteCache } from "./cache.service.js";
 
 export async function getProducts() {
-  return prisma.product.findMany({
+  const cacheKey = "products:all";
+
+  const cached = await getCache(cacheKey);
+
+  if (cached) {
+    return cached;
+  }
+
+  const products = await prisma.product.findMany({
     orderBy: {
       createdAt: "desc",
     },
   });
+
+  await setCache(cacheKey, products, 60);
+  
+  return products;
 }
 
 export async function getProductById(id: string) {
@@ -19,7 +33,7 @@ export async function getProductById(id: string) {
 }
 
 export async function createProduct(data: CreateProductInput) {
-  return prisma.product.create({
+  const product = await prisma.product.create({
     data: {
       name: data.name,
       brand: data.brand ?? null,
@@ -27,13 +41,16 @@ export async function createProduct(data: CreateProductInput) {
       imageUrl: data.imageUrl ?? null,
     },
   });
+
+    await deleteCache("products:all");
+    return product;
 }
 
 export async function updateProduct(
   id: string,
   data: UpdateProductInput
 ) {
-  return prisma.product.update({
+  const product = await prisma.product.update({
     where: { id },
     data: {
       ...(data.name !== undefined && { name: data.name }),
@@ -42,10 +59,18 @@ export async function updateProduct(
       ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
     },
   });
+
+  await deleteCache("products:all");
+
+  return product;
 }
 
 export async function deleteProduct(id: string) {
-  return prisma.product.delete({
+  const product = await prisma.product.delete({
     where: { id },
   });
+
+  await deleteCache("products:all");
+
+  return product;
 }
