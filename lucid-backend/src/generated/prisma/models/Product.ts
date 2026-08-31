@@ -380,10 +380,6 @@ export type ProductScalarRelationFilter = {
   isNot?: Prisma.ProductWhereInput
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type ProductCreateNestedOneWithoutSearchesInput = {
   create?: Prisma.XOR<Prisma.ProductCreateWithoutSearchesInput, Prisma.ProductUncheckedCreateWithoutSearchesInput>
   connectOrCreate?: Prisma.ProductCreateOrConnectWithoutSearchesInput

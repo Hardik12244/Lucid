@@ -223,7 +223,7 @@ export type ViewedProductScalarWhereWithAggregatesInput = {
 export type ViewedProductCreateInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutViewedInput
+  user: Prisma.UserCreateNestedOneWithoutViewedProductsInput
   product: Prisma.ProductCreateNestedOneWithoutViewedByInput
 }
 
@@ -237,7 +237,7 @@ export type ViewedProductUncheckedCreateInput = {
 export type ViewedProductUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutViewedNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutViewedProductsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutViewedByNestedInput
 }
 
@@ -438,7 +438,7 @@ export type ViewedProductScalarWhereInput = {
 export type ViewedProductCreateWithoutProductInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutViewedInput
+  user: Prisma.UserCreateNestedOneWithoutViewedProductsInput
 }
 
 export type ViewedProductUncheckedCreateWithoutProductInput = {
@@ -506,7 +506,7 @@ export type ViewedProductCreateManyProductInput = {
 export type ViewedProductUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutViewedNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutViewedProductsNestedInput
 }
 
 export type ViewedProductUncheckedUpdateWithoutProductInput = {

@@ -6,7 +6,12 @@ import productRoutes from "./routes/product.routes.js";
 import errorHandler from "./middleware/errorHandler.js";
 import searchRoutes from "./routes/search.routes.js";
 
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth.js";
+
 const app = express();
+
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use(helmet());
 
