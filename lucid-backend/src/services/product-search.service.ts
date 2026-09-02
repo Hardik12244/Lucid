@@ -1,6 +1,7 @@
 import { providers } from "../providers/index.js";
 import { normalizeProductResults } from "./normalization.service.js";
 import { buildAnalysisInput } from "./product-analysis.service.js";
+import { analyzeProduct } from "./gemini.service.js";
 
 export async function searchProduct(query: string) {
   const results = await Promise.allSettled(
@@ -24,7 +25,12 @@ export async function searchProduct(query: string) {
 
   const analysisInput =
     buildAnalysisInput(normalizedData);
-    
 
-  return normalizeProductResults(successfulResults);
+  const analysis =
+    await analyzeProduct(analysisInput);
+
+  return {
+    product: normalizedData,
+    analysis,
+  }
 }

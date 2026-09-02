@@ -18,6 +18,8 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().min(1),
   
   REDIS_URL: z.string(),
+
+  GEMINI_API_KEY: z.string().min(1),
 });
 
 const env = envSchema.parse(process.env);
