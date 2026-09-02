@@ -3,42 +3,41 @@
 import { Check, Star, ShieldCheck, Clock, Sparkles } from "lucide-react";
 import ProsConsTerminal from "./ProsConsTerminal";
 import { motion, Variants } from "framer-motion";
+import type { SearchResult } from "@/lib/types";
 
-interface ProductVerdictData {
-  brand: string;
-  name: string;
-  price: string;
-  tags: string[];
-  verdictStatus: string;
-  verdictDescription: string;
-  communityScore: number;
-  reviewCount: string;
-  confidenceScore: number;
-  confidenceText: string;
-  pros: string[];
-  cons: string[];
-  lastUpdated: string;
-  dataAnalyzed: string;
-}
 
-const product: ProductVerdictData = {
-  brand: "Apple",
-  name: "iPhone 15 Pro",
-  price: "₹1,19,900",
-  tags: ["Smartphone", "Released Sep 2023"],
-  verdictStatus: "Buy",
-  verdictDescription: "Highly recommended by AI and community.",
-  communityScore: 4.6,
-  reviewCount: "12,842",
-  confidenceScore: 92,
-  confidenceText: "Our AI is highly confident in this analysis based on volume, recency & diversity of reviews.",
-  pros: ["Top-tier camera quality", "Premium build & design", "Excellent performance"],
-  cons: ["Battery can drain fast", "Charging is relatively slow", "Expensive accessories"],
-  lastUpdated: "27 May 2024",
-  dataAnalyzed: "18,547 reviews from 23 sources",
+export default function ProductVerdict({ result }: { result: SearchResult }) {
+  
+  const product = {
+  brand: result.product.productName,
+  name: result.product.productName,
+  price: "—",
+  tags: result.product.sources,
+  verdictStatus: result.analysis.verdict,
+  verdictDescription: result.analysis.summary,
+  communityScore:
+  result.product.reviews.length > 0
+    ? result.product.reviews
+        .filter((review: any) => review.rating !== null)
+        .reduce(
+          (sum: number, review: any) =>
+            sum + review.rating,
+          0
+        ) /
+      result.product.reviews.filter(
+        (review: any) => review.rating !== null
+      ).length
+    : 0,
+  reviewCount: result.product.reviews.length.toString(),
+  confidenceScore: 90,
+  confidenceText:
+    "AI confidence is based on the available review data.",
+  pros: result.analysis.pros,
+  cons: result.analysis.cons,
+  lastUpdated: "Just now",
+  dataAnalyzed: `${result.product.reviews.length} reviews from ${result.product.sources.length} sources`,
 };
 
-export default function ProductVerdict() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
@@ -52,6 +51,8 @@ export default function ProductVerdict() {
   const circleCircumference = 2 * Math.PI * 40; // ~251.2
   const strokeDashoffset = circleCircumference - (circleCircumference * product.confidenceScore) / 100;
 
+
+
   return (
     <motion.div 
       variants={containerVariants}
@@ -59,7 +60,6 @@ export default function ProductVerdict() {
       animate="visible"
       className="mx-auto w-full max-w-6xl rounded-3xl border border-white/[0.08] bg-black p-8 text-white shadow-2xl sm:p-10"
     >
-      {/* IDENTITY */}
       <motion.div variants={itemVariants} className="flex flex-col gap-5">
         <div className="font-tag flex items-center gap-3 text-[11px] font-medium tracking-[0.22em] text-zinc-400 sm:text-xs">
           <span className="rounded-sm border border-[#6fce7b]/40 bg-[#6fce7b]/10 px-2.5 py-1 text-[#6fce7b]">
@@ -73,9 +73,7 @@ export default function ProductVerdict() {
         </h2>
       </motion.div>
 
-      {/* HERO: image · identity · verdict */}
       <motion.div variants={itemVariants} className="mt-8 grid gap-px overflow-hidden rounded-2xl bg-white/[0.06] lg:grid-cols-[220px_1fr_340px]">
-        {/* Image Placeholder */}
         <div className="relative flex items-center justify-center bg-[#0A0A0A] p-8">
           <div className="absolute bottom-6 h-10 w-2/3 rounded-full bg-[#6FCE7B]/20 blur-[28px]" />
           <div className="relative h-[220px] w-[160px] overflow-hidden rounded-[24px] border border-white/[0.06] bg-gradient-to-br from-zinc-900 to-black">
@@ -86,7 +84,6 @@ export default function ProductVerdict() {
           </div>
         </div>
 
-        {/* Product Details */}
         <div className="flex flex-col justify-center gap-4 bg-[#0A0A0A] p-8">
           <div className="flex items-center gap-2 text-sm font-medium text-zinc-500">
             <span className="h-1.5 w-1.5 rounded-full bg-zinc-600" />
@@ -101,7 +98,7 @@ export default function ProductVerdict() {
           </div>
 
           <div className="flex flex-wrap gap-2.5">
-            {product.tags.map((tag) => (
+            {product.tags.map((tag:any) => (
               <span
                 key={tag}
                 className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-400"
@@ -112,7 +109,6 @@ export default function ProductVerdict() {
           </div>
         </div>
 
-        {/* Verdict Callout */}
         <div className="relative flex items-center gap-5 overflow-hidden bg-[#0A0A0A] p-8">
           <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#6FCE7B]/[0.14] blur-3xl" />
           <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#6FCE7B]/30 bg-[#6FCE7B]/10">
@@ -128,7 +124,6 @@ export default function ProductVerdict() {
         </div>
       </motion.div>
 
-      {/* SCORES: community + confidence */}
       <motion.div variants={itemVariants} className="mt-8 grid gap-px overflow-hidden rounded-2xl bg-white/[0.06] md:grid-cols-2">
         <div className="flex flex-col justify-center bg-[#0A0A0A] p-7">
           <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Community score</h3>
@@ -186,7 +181,6 @@ export default function ProductVerdict() {
         </div>
       </motion.div>
 
-      {/* PROS & CONS */}
       <motion.div variants={itemVariants} className="mt-12 border-t border-white/[0.06] pt-10">
         <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Pros &amp; cons</h3>
         <div className="mt-6">

@@ -1,14 +1,8 @@
 "use client";
 
 import { Star, TrendingUp, AlertCircle, Trash2 } from "lucide-react";
+import type { SearchResult } from "@/lib/types";
 
-const ratingData = [
-  { stars: 5, percentage: 91 },
-  { stars: 4, percentage: 8 },
-  { stars: 3, percentage: 0 },
-  { stars: 2, percentage: 0 },
-  { stars: 1, percentage: 0 },
-];
 
 const trendPoints = [
   { label: "Apr", value: 2.6, x: 40, y: 110 },
@@ -17,7 +11,35 @@ const trendPoints = [
   { label: "Jul", value: 4.4, x: 340, y: 20 },
 ];
 
-export default function RatingAnalytics() {
+export default function RatingAnalytics({ result }: { result: SearchResult; }) {
+
+  const ratedReviews = result.product.reviews.filter(
+    (review) => review.rating !== null
+  );
+
+  const totalRatings = ratedReviews.length;
+
+  const ratingData = [5, 4, 3, 2, 1].map((stars) => {
+    const count = ratedReviews.filter(
+      (review) => review.rating === stars
+    ).length;
+
+    return {
+      stars,
+      percentage:
+        totalRatings > 0
+          ? Math.round((count / totalRatings) * 100)
+          : 0,
+    };
+  });
+
+  const averageRating =
+    totalRatings > 0
+      ? ratedReviews.reduce(
+        (sum, review) => sum + (review.rating ?? 0),
+        0
+      ) / totalRatings
+      : 0;
   return (
     <section className="mx-auto w-full max-w-6xl cursor-pointer select-none">
       <div className="mb-8 flex items-end justify-between">
@@ -47,7 +69,7 @@ export default function RatingAnalytics() {
 
                 <div className="mt-3 flex items-end gap-3">
                   <span className="text-6xl font-semibold leading-none tracking-[-0.06em] text-white">
-                    4.9
+                    {averageRating.toFixed(1)}
                   </span>
                   <span className="mb-1 text-sm text-zinc-600">/ 5</span>
                 </div>
@@ -78,7 +100,7 @@ export default function RatingAnalytics() {
                   Rating distribution
                 </span>
                 <span className="text-xs text-zinc-600">
-                  3,939 ratings
+                  {totalRatings.toLocaleString()} ratings
                 </span>
               </div>
 

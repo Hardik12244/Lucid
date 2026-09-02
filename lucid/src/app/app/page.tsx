@@ -7,6 +7,9 @@ import AppNavbar from "@/components/app/AppNavbar";
 import ProductCard from "@/components/app/ProductCard";
 import Footer from "@/components/Footer";
 
+import { searchProduct } from "@/lib/api";
+import { useRouter } from "next/navigation";
+const router = useRouter();
 const filters = [
   "All",
   "Trending",
@@ -18,7 +21,7 @@ const filters = [
 const mockProducts = [
   {
     id: 1,
-    image:"/sony.png",
+    image: "/sony.png",
     title: "Headphones",
     brand: "Sony",
     category: "Electronics",
@@ -82,6 +85,33 @@ const fadeUp = {
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState("All");
 
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSearch = async () => {
+  if (!query.trim()) return;
+
+  try {
+    setLoading(true);
+    setError("");
+
+    const data = await searchProduct(query);
+
+    sessionStorage.setItem(
+      "lucid-search-result",
+      JSON.stringify(data)
+    );
+
+    router.push("/result");
+  } catch (error) {
+    console.error(error);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#6fce7b]/30">
       <AppNavbar />
@@ -140,29 +170,62 @@ export default function HomePage() {
                 <input
                   type="text"
                   placeholder="Search a product..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearch();
+                    }
+                  }}
                   className="w-full bg-transparent py-3 pl-2 pr-4 text-[15px] text-white outline-none placeholder:text-zinc-600"
                 />
 
-                <button className="flex h-11 shrink-0 items-center justify-center rounded-xl bg-white px-6 text-[14px] font-semibold text-black transition-all duration-200 hover:bg-[#6fce7b]">
-                  Search
-                </button>
+                <input
+                  type="text"
+                  placeholder="Search a product..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearch();
+                    }
+                  }}
+                  className="w-full bg-transparent py-3 pl-2 pr-4 text-[15px] text-white outline-none placeholder:text-zinc-600"
+                />
               </div>
             </motion.div>
-
+            {error && (
+              <p className="mt-3 text-sm text-red-400">
+                {error}
+              </p>
+            )}
             <motion.div
               variants={fadeUp}
               className="mt-8 flex items-center gap-2 text-xs text-zinc-600"
             >
               <span>Try</span>
-              <button className="text-zinc-400 transition-colors hover:text-white">
+              <button
+                onClick={() => setQuery("iPhone 15 Pro")}
+                className="text-zinc-400 transition-colors hover:text-white"
+              >
                 iPhone 15 Pro
               </button>
+
               <span>·</span>
-              <button className="text-zinc-400 transition-colors hover:text-white">
+
+              <button
+                onClick={() => setQuery("AirPods Pro")}
+                className="text-zinc-400 transition-colors hover:text-white"
+              >
                 AirPods Pro
               </button>
+
               <span>·</span>
-              <button className="text-zinc-400 transition-colors hover:text-white">
+
+              <button
+                onClick={() => setQuery("MacBook Air")}
+                className="text-zinc-400 transition-colors hover:text-white"
+              >
                 MacBook Air
               </button>
             </motion.div>
@@ -179,11 +242,10 @@ export default function HomePage() {
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
                     whileTap={{ scale: 0.95 }}
-                    className={`rounded-full px-5 py-2 text-[14px] font-medium transition-all duration-200 ${
-                      active
-                        ? "bg-[#6fce7b] text-[#071009] shadow-[0_0_18px_rgba(111,206,123,0.25)]"
-                        : "border border-white/[0.08] bg-white/[0.02] text-zinc-400 hover:border-white/[0.14] hover:bg-white/[0.06] hover:text-white"
-                    }`}
+                    className={`rounded-full px-5 py-2 text-[14px] font-medium transition-all duration-200 ${active
+                      ? "bg-[#6fce7b] text-[#071009] shadow-[0_0_18px_rgba(111,206,123,0.25)]"
+                      : "border border-white/[0.08] bg-white/[0.02] text-zinc-400 hover:border-white/[0.14] hover:bg-white/[0.06] hover:text-white"
+                      }`}
                   >
                     {filter}
                   </motion.button>
@@ -234,7 +296,7 @@ export default function HomePage() {
           </motion.div>
         </motion.section>
       </main>
-          <Footer/>
+      <Footer />
     </div>
   );
 }

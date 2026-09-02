@@ -1,7 +1,8 @@
 "use client";
+import type { SearchResult } from "@/lib/types";
 
 import React, { useEffect, useState, useRef } from "react";
-import { motion, animate, Variants, useScroll, useTransform, useSpring ,AnimationSequence} from "framer-motion";
+import { motion, animate, Variants, useScroll, useTransform, useSpring, AnimationSequence } from "framer-motion";
 import { Award, ArrowRight, Info, Quote, CheckCircle2, Radar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,13 +23,6 @@ const YouTubeIcon = ({ className }: { className?: string }) => (
     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
   </svg>
 );
-
-const sourceData = [
-  { name: "Reddit", reviews: 1240, percentage: 42, icon: <RedditIcon className="h-[18px] w-[18px]" /> },
-  { name: "Amazon", reviews: 892, percentage: 31, icon: <AmazonIcon className="h-5 w-5" /> },
-  { name: "YouTube", reviews: 431, percentage: 17, icon: <YouTubeIcon className="h-[18px] w-[18px]" /> },
-  { name: "Expert reviews", reviews: 376, percentage: 10, icon: <Award className="h-4 w-4" /> },
-];
 
 const confidenceSignals = [
   { label: "Review volume", strength: "Very strong", score: 95 },
@@ -102,7 +96,7 @@ const Container = ({ className, children }: { className?: string; children: Reac
 const EvidenceScanSkeleton = () => {
   useEffect(() => {
     const pulse = { scale: [1, 1.08, 1] };
-    
+
     const sequence: AnimationSequence = [
       [".dot-1", pulse, { duration: 0.7 }],
       [".dot-2", pulse, { duration: 0.7 }],
@@ -156,7 +150,7 @@ const VerdictStamp = ({ value }: { value: number }) => (
   </div>
 );
 
-export default function SourcesAndEvidence() {
+export default function SourcesAndEvidence({ result }: { result: SearchResult }) {
   const timelineRef = useRef<HTMLDivElement>(null);
 
   const containerVariants: Variants = {
@@ -234,22 +228,42 @@ export default function SourcesAndEvidence() {
           </div>
 
           <div className="mt-8 flex flex-col gap-6">
-            {sourceData.map((source, idx) => (
-              <div key={source.name} className="group flex items-center gap-5">
+            {result.product.sources.map((source, idx) => (
+              <div key={source} className="group flex items-center gap-5">
                 <div className="flex w-36 items-center gap-3 text-[14px] text-zinc-300 transition-colors group-hover:text-white">
-                  <span className="text-zinc-500 transition-colors group-hover:text-[#6fce7b]">{source.icon}</span>
-                  {source.name}
+                  <span className="text-zinc-500 transition-colors group-hover:text-[#6fce7b]">
+                    {source === "reddit" && <RedditIcon className="h-[18px] w-[18px]" />}
+                    {source === "amazon" && <AmazonIcon className="h-5 w-5" />}
+                    {source === "youtube" && <YouTubeIcon className="h-[18px] w-[18px]" />}
+                    {source !== "reddit" &&
+                      source !== "amazon" &&
+                      source !== "youtube" && (
+                        <Award className="h-4 w-4" />
+                      )}
+                  </span>
+
+                  {source}
                 </div>
+
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{ width: `${source.percentage}%` }}
-                    transition={{ duration: 1, delay: 0.2 + idx * 0.1, ease: "easeOut" }}
+                    whileInView={{ width: "100%" }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.2 + idx * 0.1,
+                      ease: "easeOut",
+                    }}
                     className="h-full rounded-full bg-zinc-600 transition-colors group-hover:bg-[#6fce7b]"
                   />
                 </div>
+
                 <div className="flex w-12 flex-col items-end">
-                  <span className="font-tag text-[13px] font-medium text-white">{source.percentage}%</span>
+                  <span className="font-tag text-[13px] font-medium text-white">
+                    {result.product.reviews.filter(
+                      (review) => review.source === source
+                    ).length}
+                  </span>
                 </div>
               </div>
             ))}
