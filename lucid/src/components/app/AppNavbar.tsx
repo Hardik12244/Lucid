@@ -4,9 +4,9 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 
 const navLinks = [
-  { label: "Compare", href: "/app/compare" },
-  { label: "Saved", href: "/app/saved" },
-  { label: "History", href: "/app/history" },
+  { label: "Compare", href: "/compare" },
+  { label: "Saved", href: "/saved" },
+  { label: "History", href: "/history" },
 ];
 
 export default function AppNavbar() {
@@ -34,7 +34,7 @@ export default function AppNavbar() {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/app/search"
+            href="/app"
             className="group flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] pl-2.5 pr-1.5 text-zinc-400 transition-colors hover:bg-white/[0.08] hover:text-white"
           >
             <Search className="h-4 w-4" strokeWidth={2} />

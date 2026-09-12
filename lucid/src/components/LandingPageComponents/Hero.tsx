@@ -35,13 +35,13 @@ export default function Hero() {
                     experiences across the web—then gives you one clear buying decision.
                 </p>
 
-                <button className="group mt-12 flex h-16 items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] px-9 text-lg font-medium text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(255,255,255,0.08)]">
+                <a href="/app" className="group mt-12 flex h-16 items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] px-9 text-lg font-medium text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(255,255,255,0.08)]">
                     <span>Start Searching</span>
 
                     <span className="transition-transform duration-300 group-hover:translate-x-1">
                         →
                     </span>
-                </button>
+                </a>
 
                 <div className="mt-16 mb-8 flex flex-col items-center gap-3 text-zinc-500">
                     <div className="animate-bounce text-lg">↓</div>

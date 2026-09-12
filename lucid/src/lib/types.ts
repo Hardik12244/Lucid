@@ -24,3 +24,17 @@ export interface SearchResult {
     };
   };
 }
+export interface DBProduct {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number | null;
+  description: string | null;
+  imageUrl: string | null;
+  stats?: {
+    totalReviews: number;
+    averageRating: number;
+    ratingDistribution: Record<1 | 2 | 3 | 4 | 5, number>;
+  };
+}

@@ -289,7 +289,7 @@ export default function SourcesAndEvidence({ result }: { result: SearchResult })
 
           <div className="relative z-20 flex flex-1 flex-col border-t border-white/[0.04] bg-[#121214] p-8 sm:p-10">
             <div className="flex items-start justify-between">
-              <h3 className="font-tag text-[11px] font-semibold tracking-[0.18em] text-zinc-400">AI CONFIDENCE</h3>
+              <h3 className="font-tag text-[11px] font-semibold tracking-[0.18em] text-zinc-400">CONFIDENCE SCORE</h3>
               <span className="font-tag text-[11px] font-medium text-[#6fce7b]">
                 <AnimatedCounter value={94} />% — high confidence
               </span>

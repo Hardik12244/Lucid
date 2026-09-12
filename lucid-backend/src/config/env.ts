@@ -20,6 +20,9 @@ const envSchema = z.object({
   REDIS_URL: z.string(),
 
   GEMINI_API_KEY: z.string().min(1),
+
+
+  AMAZON_SCRAPER_API_KEY: z.string().min(1),
 });
 
 const env = envSchema.parse(process.env);

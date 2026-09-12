@@ -7,20 +7,30 @@ import type { AnalysisInput } from "./product-analysis.service.js";
 const ai = new GoogleGenAI({
     apiKey: env.GEMINI_API_KEY,
 });
+
 const productAnalysisSchema = z.object({
-    summary: z.string(),
-
-    verdict: z.string(),
-
-    pros: z.array(z.string()),
-
-    cons: z.array(z.string()),
-
-    sentiment: z.object({
-        positive: z.number(),
-        neutral: z.number(),
-        negative: z.number(),
-    }),
+  summary: z.string(),
+  verdict: z.string(),
+  pros: z.array(z.string()),
+  cons: z.array(z.string()),
+  sentiment: z
+    .object({
+      positive: z.number().min(0).max(100),
+      neutral: z.number().min(0).max(100),
+      negative: z.number().min(0).max(100),
+    })
+    .refine(
+      (data) =>
+        Math.abs(
+          data.positive +
+            data.neutral +
+            data.negative -
+            100,
+        ) < 0.1,
+      {
+        message: "Sentiment percentages must total 100",
+      },
+    ),
 });
 
 export async function analyzeProduct(
@@ -60,7 +70,8 @@ Provide:
 2. A balanced buying verdict.
 3. The most important pros.
 4. The most important cons.
-5. An estimated sentiment breakdown.
+5. An estimated sentiment breakdown as percentages.
+The sentiment values must be numbers between 0 and 100 and must add up to 100.
 
 Do not invent information that is not supported by the reviews.
 `;

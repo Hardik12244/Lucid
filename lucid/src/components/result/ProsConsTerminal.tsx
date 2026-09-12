@@ -68,7 +68,7 @@ export default function ProsConsScrollReveal({
                   transition={{ duration: 0.6 }}
                   className="text-[42px] font-light leading-none tracking-tight text-white sm:text-[54px]"
                 >
-                  AI Sentiment Analysis
+                  Sentiment Analysis
                 </motion.h2>
 
                 <motion.p
@@ -86,7 +86,7 @@ export default function ProsConsScrollReveal({
               </div>
 
               <div className="grid grid-cols-1 gap-6 px-7 pb-12 lg:grid-cols-2">
-                <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#050505]/90 backdrop-blur-xl">
+                <div className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-[#050505]/90 backdrop-blur-xl">
                   <div className="absolute inset-0 bg-gradient-to-b from-[#6fce7b]/[0.03] via-transparent to-transparent" />
                   <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#6fce7b]/30 to-transparent" />
                   
@@ -117,7 +117,7 @@ export default function ProsConsScrollReveal({
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#050505]/90 backdrop-blur-xl">
+                <div className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-[#050505]/90 backdrop-blur-xl">
                   <div className="absolute inset-0 bg-gradient-to-b from-rose-500/[0.03] via-transparent to-transparent" />
                   <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-500/30 to-transparent" />
                   

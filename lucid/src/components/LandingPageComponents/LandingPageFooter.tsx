@@ -6,27 +6,27 @@ import FloatingDots from "@/components/ui/FloatingDots";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 const productLinks = [
-  { label: "How it works", href: "/how-it-works" },
-  { label: "Features", href: "/features" },
-  { label: "Compare", href: "/compare" },
+  { label: "How it works", href: "#" },
+  { label: "Features", href: "#" },
+  { label: "Compare", href: "#" },
 ];
 
 const companyLinks = [
-  { label: "About us", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Careers", href: "/careers" },
+  { label: "About us", href: "#" },
+  { label: "Blog", href: "#" },
+  { label: "Careers", href: "#" },
 ];
 
 const resourceLinks = [
-  { label: "Help Center", href: "/help" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
+  { label: "Help Center", href: "#" },
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms of Service", href: "#" },
 ];
 
 const socialLinks = [
   {
     label: "X",
-    href: "https://x.com",
+    href: "https://x.com/Silent_twt_",
     icon: (
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -34,17 +34,21 @@ const socialLinks = [
     ),
   },
   {
-    label: "YouTube",
-    href: "https://youtube.com",
+    label: "Github",
+    href: "https://github.com/Hardik12244",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-        <path d="M23.498 6.186a2.994 2.994 0 00-2.107-2.12C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.391.521A2.994 2.994 0 00.502 6.186 31.26 31.26 0 000 12a31.26 31.26 0 00.502 5.814 2.994 2.994 0 002.107 2.12c1.886.521 9.391.521 9.391.521s7.505-.521 9.391-.521a2.994 2.994 0 002.107-2.12A31.26 31.26 0 0024 12a31.26 31.26 0 00-.502-5.814zM9.75 15.568V8.432L15.818 12z" />
-      </svg>
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
+  <path
+    fillRule="evenodd"
+    clipRule="evenodd"
+    d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+  />
+</svg>
     ),
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/hardik-garg-837665244/",
     icon: (
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 110-4.124 2.062 2.062 0 010 4.124zM7.114 20.452H3.558V9h3.556v11.452z" />
@@ -128,16 +132,18 @@ export default function FooterWithBanner() {
         </h2>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <ShimmerButton
-            background=""
-            shimmerColor="white"
-            shimmerSize="0.1em"
-            className="rounded-xl px-8 py-4 text-white transition-transform hover:scale-[1.02]"
-          >
-            <span className="flex items-center gap-2.5 whitespace-nowrap text-[16px] font-semibold text-white">
-              Start Searching
-            </span>
-          </ShimmerButton>
+          <a href="/app">
+            <ShimmerButton
+              background=""
+              shimmerColor="white"
+              shimmerSize="0.1em"
+              className="rounded-xl px-8 py-4 text-white transition-transform hover:scale-[1.02]"
+            >
+              <span className="flex items-center gap-2.5 whitespace-nowrap text-[16px] font-semibold text-white">
+                Start Searching
+              </span>
+            </ShimmerButton>
+          </a>
         </div>
       </div>
 

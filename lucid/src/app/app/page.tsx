@@ -2,14 +2,15 @@
 
 import { Search } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "@/lib/api";
 import AppNavbar from "@/components/app/AppNavbar";
 import ProductCard from "@/components/app/ProductCard";
 import Footer from "@/components/Footer";
 
-import { searchProduct } from "@/lib/api";
 import { useRouter } from "next/navigation";
-const router = useRouter();
+
 const filters = [
   "All",
   "Trending",
@@ -20,41 +21,44 @@ const filters = [
 
 const mockProducts = [
   {
-    id: 1,
-    image: "/sony.png",
-    title: "Headphones",
+    id: "sony-wh-1000xm5", // we will use names for routing in search if no id
+    image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
+    title: "Sony WH-1000XM5",
     brand: "Sony",
-    category: "Electronics",
-    price: "$49",
+    category: "headphones",
+    price: "$398",
     rating: 4.8,
-    confidence: 96,
+    reviewCount: 96,
   },
   {
-    id: 2,
-    title: "Icon Library 3.0",
-    brand: "Pixelcraft",
-    category: "Icons",
-    price: "$29",
+    id: "bose-qc45",
+    title: "Bose QuietComfort 45",
+    brand: "Bose",
+    category: "headphones",
+    price: "$329",
     rating: 4.7,
-    confidence: 94,
+    reviewCount: 94,
+    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&q=80",
   },
   {
-    id: 3,
-    title: "Auth Starter Pack",
-    brand: "Devbase",
-    category: "Plugin",
-    price: "$39",
+    id: "airpods-pro-2",
+    title: "Apple AirPods Pro (2nd Generation)",
+    brand: "Apple",
+    category: "earbuds",
+    price: "$249",
     rating: 4.6,
-    confidence: 92,
+    reviewCount: 92,
+    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800&q=80",
   },
   {
-    id: 4,
-    title: "Landing Page Set",
-    brand: "Frame Studio",
-    category: "Template",
-    price: "$59",
+    id: "macbook-pro-m3",
+    title: "MacBook Pro 14-inch (M3 Pro)",
+    brand: "Apple",
+    category: "laptops",
+    price: "$1999",
     rating: 4.9,
-    confidence: 97,
+    reviewCount: 97,
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
   },
 ];
 
@@ -86,31 +90,34 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState("All");
 
   const [query, setQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const { data: productsResponse } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
+  const dbProducts = productsResponse?.data || [];
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setIsFocused(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredProducts = dbProducts.filter((p: any) => p.name.toLowerCase().includes(query.toLowerCase())).slice(0, 6);
 
   const handleSearch = async () => {
-  if (!query.trim()) return;
-
-  try {
-    setLoading(true);
-    setError("");
-
-    const data = await searchProduct(query);
-
-    sessionStorage.setItem(
-      "lucid-search-result",
-      JSON.stringify(data)
-    );
-
-    router.push("/result");
-  } catch (error) {
-    console.error(error);
-    setError("Something went wrong. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!query.trim()) return;
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  };
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#6fce7b]/30">
@@ -157,7 +164,8 @@ export default function HomePage() {
 
             <motion.div
               variants={fadeUp}
-              className="relative mt-10 w-full max-w-2xl"
+              ref={searchRef}
+              className="relative mt-10 w-full max-w-2xl z-50"
             >
               <div className="group relative flex items-center overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0c] p-1.5 shadow-[0_8px_40px_rgba(0,0,0,0.45)] transition-all duration-300 focus-within:border-[#6fce7b]/40 focus-within:shadow-[0_0_40px_rgba(111,206,123,0.08)]">
                 <div className="flex pl-4 pr-2">
@@ -172,27 +180,46 @@ export default function HomePage() {
                   placeholder="Search a product..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleSearch();
-                    }
-                  }}
-                  className="w-full bg-transparent py-3 pl-2 pr-4 text-[15px] text-white outline-none placeholder:text-zinc-600"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Search a product..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                      setIsFocused(false);
                       handleSearch();
                     }
                   }}
                   className="w-full bg-transparent py-3 pl-2 pr-4 text-[15px] text-white outline-none placeholder:text-zinc-600"
                 />
               </div>
+
+              {isFocused && (
+                <div className="absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0c]/90 shadow-[0_8px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+                  {filteredProducts.length > 0 ? (
+                    <div className="flex flex-col py-2">
+                      {filteredProducts.map((product: any) => (
+                        <div
+                          key={product.id}
+                          onClick={() => {
+                            setQuery(product.name);
+                            setIsFocused(false);
+                            router.push(`/product/${product.id}`);
+                          }}
+                          className="flex cursor-pointer items-center gap-4 px-4 py-3 transition-colors hover:bg-white/[0.04]"
+                        >
+                          <Search className="h-4 w-4 text-zinc-500" />
+                          <div className="flex flex-col text-left">
+                            <span className="text-sm font-medium text-white">{product.name}</span>
+                            {product.brand && <span className="text-xs text-zinc-500">{product.brand}</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-4 text-center text-sm text-zinc-500">
+                      No products found. Press Enter to search the web.
+                    </div>
+                  )}
+                </div>
+              )}
             </motion.div>
             {error && (
               <p className="mt-3 text-sm text-red-400">
@@ -290,7 +317,9 @@ export default function HomePage() {
           >
             {mockProducts.map((product) => (
               <motion.div key={product.id} variants={fadeUp}>
-                <ProductCard product={product} />
+                <div onClick={() => router.push(`/search?q=${encodeURIComponent(product.title)}`)} className="cursor-pointer">
+                  <ProductCard product={product} />
+                </div>
               </motion.div>
             ))}
           </motion.div>

@@ -27,9 +27,45 @@ export async function getProducts() {
 }
 
 export async function getProductById(id: string) {
-  return prisma.product.findUnique({
+  const cacheKey = `product:${id}`;
+  const cached = await getCache(cacheKey);
+  if (cached) return cached;
+
+  const product = await prisma.product.findUnique({
     where: { id },
+    include: {
+      reviews: {
+        select: { rating: true }
+      }
+    }
   });
+
+  if (!product) return null;
+
+  const totalReviews = product.reviews.length;
+  const ratingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  let totalScore = 0;
+
+  product.reviews.forEach((r) => {
+    if (r.rating >= 1 && r.rating <= 5) {
+      ratingDistribution[r.rating as keyof typeof ratingDistribution]++;
+      totalScore += r.rating;
+    }
+  });
+
+  const averageRating = totalReviews > 0 ? totalScore / totalReviews : null;
+
+  const result = {
+    ...product,
+    stats: {
+      totalReviews,
+      averageRating,
+      ratingDistribution
+    }
+  };
+
+  await setCache(cacheKey, result, 60);
+  return result;
 }
 
 export async function createProduct(data: CreateProductInput) {
@@ -39,6 +75,8 @@ export async function createProduct(data: CreateProductInput) {
       brand: data.brand ?? null,
       category: data.category ?? null,
       imageUrl: data.imageUrl ?? null,
+      price: (data as any).price ?? null,
+      description: (data as any).description ?? null,
     },
   });
 
@@ -57,6 +95,8 @@ export async function updateProduct(
       ...(data.brand !== undefined && { brand: data.brand }),
       ...(data.category !== undefined && { category: data.category }),
       ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
+      ...((data as any).price !== undefined && { price: (data as any).price }),
+      ...((data as any).description !== undefined && { description: (data as any).description }),
     },
   });
 

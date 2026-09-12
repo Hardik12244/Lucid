@@ -50,14 +50,14 @@ export default function LeftContent() {
         transition={{ duration: 0.7, delay: 0.35 }}
         className="mt-9 flex flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:gap-5"
       >
-        <button className="group flex h-[52px] items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#70BB7A] via-[#66B273] to-[#58A784] px-7 text-[15px] font-medium text-black transition-all duration-300 hover:scale-[1.03] sm:h-14 sm:text-[16px]">
+        <a href="/app" className="group flex h-[52px] items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#70BB7A] via-[#66B273] to-[#58A784] px-7 text-[15px] font-medium text-black transition-all duration-300 hover:scale-[1.03] sm:h-14 sm:text-[16px]">
           <Search size={18} />
           Start Searching
           <ArrowRight
             size={18}
             className="transition-transform duration-300 group-hover:translate-x-1"
           />
-        </button>
+        </a>
 
         <button className="group flex h-[52px] items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-7 text-[15px] text-white backdrop-blur-xl transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05] sm:h-14 sm:text-[16px]">
           <Play size={17} fill="currentColor" />

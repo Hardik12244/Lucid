@@ -8,7 +8,7 @@ export interface Product {
   category: string;
   price: string;
   rating: number;
-  confidence: number;
+  reviewCount: number;
   image?: string;
 }
 
@@ -64,15 +64,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <div className="mt-3 flex items-center justify-between border-t border-white/[0.06] pt-3">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#72d978]" />
-
             <span className="text-[11px] text-zinc-500">
-              AI confidence
+              Reviews
             </span>
           </div>
 
-          <span className="text-xs font-semibold text-[#72d978]">
-            {product.confidence}%
+          <span className="text-xs font-semibold text-zinc-400">
+            {product.reviewCount}
           </span>
         </div>
       </div>

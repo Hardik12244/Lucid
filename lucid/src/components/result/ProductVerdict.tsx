@@ -6,17 +6,9 @@ import { motion, Variants } from "framer-motion";
 import type { SearchResult } from "@/lib/types";
 
 
-export default function ProductVerdict({ result }: { result: SearchResult }) {
+export default function ProductVerdict({ result, dbProduct }: { result: SearchResult, dbProduct?: any }) {
   
-  const product = {
-  brand: result.product.productName,
-  name: result.product.productName,
-  price: "—",
-  tags: result.product.sources,
-  verdictStatus: result.analysis.verdict,
-  verdictDescription: result.analysis.summary,
-  communityScore:
-  result.product.reviews.length > 0
+  const rawCommunityScore = result.product.reviews.length > 0
     ? result.product.reviews
         .filter((review: any) => review.rating !== null)
         .reduce(
@@ -27,11 +19,21 @@ export default function ProductVerdict({ result }: { result: SearchResult }) {
       result.product.reviews.filter(
         (review: any) => review.rating !== null
       ).length
-    : 0,
+    : 0;
+
+  const product = {
+  brand: result.product.productName,
+  name: result.product.productName,
+  price: dbProduct?.price ? `₹${dbProduct.price.toLocaleString()}` : "—",
+  imageUrl: dbProduct?.imageUrl || null,
+  tags: result.product.sources,
+  verdictStatus: result.analysis.verdict,
+  verdictDescription: result.analysis.summary,
+  communityScore: rawCommunityScore.toFixed(1),
   reviewCount: result.product.reviews.length.toString(),
   confidenceScore: 90,
   confidenceText:
-    "AI confidence is based on the available review data.",
+    "Confidence score is based on the available review data.",
   pros: result.analysis.pros,
   cons: result.analysis.cons,
   lastUpdated: "Just now",
@@ -78,9 +80,13 @@ export default function ProductVerdict({ result }: { result: SearchResult }) {
           <div className="absolute bottom-6 h-10 w-2/3 rounded-full bg-[#6FCE7B]/20 blur-[28px]" />
           <div className="relative h-[220px] w-[160px] overflow-hidden rounded-[24px] border border-white/[0.06] bg-gradient-to-br from-zinc-900 to-black">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center text-xs text-zinc-700">
-              Image placeholder
-            </div>
+            {product.imageUrl ? (
+              <img src={product.imageUrl} alt={product.name} className="relative z-10 h-full w-full object-cover" />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-xs text-zinc-700">
+                Image placeholder
+              </div>
+            )}
           </div>
         </div>
 
@@ -101,7 +107,7 @@ export default function ProductVerdict({ result }: { result: SearchResult }) {
             {product.tags.map((tag:any) => (
               <span
                 key={tag}
-                className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-400"
+                className="rounded-xl border border-white/20 bg-white/[0.08] backdrop-blur-md px-4 py-1.5 text-xs text-zinc-200 shadow-[0_0_15px_rgba(255,255,255,0.1),inset_0_1px_1px_rgba(255,255,255,0.2)]"
               >
                 {tag}
               </span>
@@ -116,7 +122,7 @@ export default function ProductVerdict({ result }: { result: SearchResult }) {
           </div>
           <div className="relative flex flex-col">
             <h3 className="text-xs font-medium uppercase tracking-widest text-zinc-500">Overall verdict</h3>
-            <div className="mt-1 text-5xl font-bold leading-[0.95] tracking-tight text-[#6FCE7B]">
+            <div className="mt-1 text-3xl font-bold leading-[0.95] tracking-tight text-[#6FCE7B] sm:text-4xl lg:text-5xl lg:break-words">
               {product.verdictStatus}
             </div>
             <p className="mt-2 text-sm font-medium text-zinc-300">{product.verdictDescription}</p>
@@ -136,7 +142,7 @@ export default function ProductVerdict({ result }: { result: SearchResult }) {
               <Star
                 key={star}
                 className={`h-4 w-4 ${
-                  star <= Math.round(product.communityScore) 
+                  star <= Math.round(Number(product.communityScore)) 
                     ? "fill-[#6FCE7B] text-[#6FCE7B]" 
                     : "fill-zinc-800 text-zinc-800"
                 }`}

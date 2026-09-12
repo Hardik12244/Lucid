@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Google_Sans } from "next/font/google";
 import "./globals.css";
+import Providers from "@/components/Providers";
 
 import { Outfit } from "next/font/google";
 
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-[#050505] text-white ${google_Sans.className}`}>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

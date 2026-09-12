@@ -116,17 +116,19 @@ export default function LucidOverview() {
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               
-              <ShimmerButton
-                background="black"
-                shimmerColor="white"
-                shimmerSize="0.1em"
-                className="rounded-xl px-8 py-4 text-white transition-transform hover:scale-[1.02]"
-              >
-                <span className="flex items-center gap-2.5 whitespace-nowrap text-[16px] font-semibold text-[#ffffff]">
-                  <Search size={22} strokeWidth={2.5} />
-                  Start Searching
-                </span>
-              </ShimmerButton>
+              <a href="/app">
+                <ShimmerButton
+                  background="black"
+                  shimmerColor="white"
+                  shimmerSize="0.1em"
+                  className="rounded-xl px-8 py-4 text-white transition-transform hover:scale-[1.02]"
+                >
+                  <span className="flex items-center gap-2.5 whitespace-nowrap text-[16px] font-semibold text-[#ffffff]">
+                    <Search size={22} strokeWidth={2.5} />
+                    Start Searching
+                  </span>
+                </ShimmerButton>
+              </a>
 
              
             </div>
