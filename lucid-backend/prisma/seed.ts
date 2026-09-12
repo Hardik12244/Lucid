@@ -92,14 +92,29 @@ const productsData = [
 ];
 
 const mockReviews = [
-  { rating: 5, title: "Absolutely incredible", content: "This product changed my workflow entirely. Highly recommended." },
-  { rating: 4, title: "Great but pricey", content: "Very solid build quality and performs well, though I wish it was a bit cheaper." },
-  { rating: 3, title: "Average experience", content: "It does the job, but there are better alternatives for the price." },
-  { rating: 5, title: "Best in class", content: "I have tried many competitors but this one is the absolute best." },
-  { rating: 4, title: "Very good", content: "Battery life is excellent, performance is solid." },
-  { rating: 2, title: "Disappointed", content: "Started having issues after a month. Customer support was slow." },
-  { rating: 5, title: "Perfect!", content: "Everything about this is perfect. No complaints at all." },
-  { rating: 1, title: "Do not buy", content: "Mine arrived defective and return process is a hassle." },
+  { rating: 5, title: "Great product", content: "[Demo Review] Does exactly what it says. Very satisfied.", source: "Demo-Store" },
+  { rating: 4, title: "Good but pricey", content: "[Demo Review] Solid build quality, but maybe a bit expensive.", source: "Demo-Tech" },
+  { rating: 3, title: "Average", content: "[Demo Review] It's okay. Nothing special.", source: "Demo-Forum" },
+  { rating: 5, title: "Excellent", content: "[Demo Review] Highly recommended!", source: "Demo-Store" },
+  { rating: 2, title: "Disappointed", content: "[Demo Review] Had some issues after a week. Not the best.", source: "Demo-Tech" },
+];
+
+const sonyReviews = [
+  { rating: 5, title: "Best ANC on the market", content: "[Demo Review] The noise cancellation on the WH-1000XM5 is simply unparalleled. It blocks out airplane engine noise flawlessly.", source: "Demo-Tech-Reddit" },
+  { rating: 4, title: "Comfortable but less portable", content: "[Demo Review] They are incredibly comfortable for long sessions. However, the new case design doesn't fold, making them bulkier in a backpack.", source: "Demo-Video-Reviews" },
+  { rating: 5, title: "Superb sound quality", content: "[Demo Review] The audio profile is very balanced out of the box, and the EQ in the app lets you tune it perfectly. Call quality is also a huge step up from the XM4.", source: "Demo-Store" },
+  { rating: 3, title: "Auto-ANC can be annoying", content: "[Demo Review] I dislike that you cannot manually max out the ANC anymore. The auto-optimizer sometimes lowers the ANC when I don't want it to.", source: "Demo-Audio-Forum" },
+  { rating: 4, title: "Great battery life", content: "[Demo Review] easily getting 30 hours of playback. The quick charge feature is also a lifesaver when I forget to plug them in.", source: "Demo-Store" },
+  { rating: 5, title: "Lightweight and sleek", content: "[Demo Review] The new design is much sleeker and the headband is very comfortable on the crown of my head.", source: "Demo-Tech-Reddit" },
+];
+
+const airpodsReviews = [
+  { rating: 5, title: "Huge upgrade over Gen 1", content: "[Demo Review] The ANC on the AirPods Pro 2 is easily twice as good as the first generation. Volume swipe controls on the stem are a game changer.", source: "Demo-Tech-Reddit" },
+  { rating: 5, title: "Seamless Apple ecosystem integration", content: "[Demo Review] As expected, switching between my iPhone, iPad, and Mac is flawless. The H2 chip makes pairing instantaneous.", source: "Demo-Video-Reviews" },
+  { rating: 4, title: "Good fit, finally", content: "[Demo Review] The addition of the XS ear tips means these finally stay securely in my ears while running.", source: "Demo-Store" },
+  { rating: 3, title: "Case gets scratched easily", content: "[Demo Review] The glossy white case scuffs if you just look at it wrong. Highly recommend getting a protective cover.", source: "Demo-Forum" },
+  { rating: 5, title: "Transparency mode is magic", content: "[Demo Review] Adaptive transparency is incredible. It lets ambient sound in perfectly while dampening loud construction noises.", source: "Demo-Audio-Blog" },
+  { rating: 4, title: "Battery life is decent", content: "[Demo Review] Six hours on a single charge is good, but I wish the case held more than 30 hours total.", source: "Demo-Store" },
 ];
 
 async function main() {
@@ -120,6 +135,9 @@ async function main() {
       }
     });
   }
+
+  // Clear existing reviews to ensure clean slate
+  await prisma.review.deleteMany();
 
   for (const p of productsData) {
     let product = await prisma.product.findFirst({
@@ -152,30 +170,31 @@ async function main() {
       console.log(`Updated product: ${product.name}`);
     }
 
-    // Add some random reviews to the product if it doesn't have any
-    const existingReviews = await prisma.review.count({
-      where: { productId: product.id }
-    });
-
-    if (existingReviews === 0) {
-      // Pick 3-5 random reviews
-      const numReviews = Math.floor(Math.random() * 3) + 3; // 3 to 5
-      
-      const selectedReviews = [...mockReviews].sort(() => 0.5 - Math.random()).slice(0, numReviews);
-      
-      for (const r of selectedReviews) {
-        await prisma.review.create({
-          data: {
-            rating: r.rating,
-            title: r.title,
-            content: r.content,
-            productId: product.id,
-            userId: seedUser.id
-          }
-        });
-      }
-      console.log(`Added ${numReviews} reviews for: ${product.name}`);
+    // Insert targeted reviews for specific products, and generic for the rest
+    let reviewsToInsert = mockReviews;
+    if (p.name === "Sony WH-1000XM5") {
+      reviewsToInsert = sonyReviews;
+    } else if (p.name === "Apple AirPods Pro (2nd Generation)") {
+      reviewsToInsert = airpodsReviews;
+    } else {
+      // Pick 3-5 random mock reviews for generic products
+      const numReviews = Math.floor(Math.random() * 3) + 3;
+      reviewsToInsert = [...mockReviews].sort(() => 0.5 - Math.random()).slice(0, numReviews);
     }
+    
+    for (const r of reviewsToInsert) {
+      await prisma.review.create({
+        data: {
+          rating: r.rating,
+          title: r.title,
+          content: r.content,
+          source: r.source,
+          productId: product.id,
+          userId: seedUser.id
+        }
+      });
+    }
+    console.log(`Added ${reviewsToInsert.length} reviews for: ${product.name}`);
   }
 
   console.log("Seeding finished successfully.");

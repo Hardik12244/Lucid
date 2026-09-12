@@ -6,39 +6,35 @@ import { motion, Variants } from "framer-motion";
 import type { SearchResult } from "@/lib/types";
 
 
-export default function ProductVerdict({ result, dbProduct }: { result: SearchResult, dbProduct?: any }) {
+export default function ProductVerdict({ result }: { result: SearchResult }) {
+  const { product: backendProduct, analysis, stats } = result;
+
+  const rawCommunityScore = stats?.averageRating ?? 0;
   
-  const rawCommunityScore = result.product.reviews.length > 0
-    ? result.product.reviews
-        .filter((review: any) => review.rating !== null)
-        .reduce(
-          (sum: number, review: any) =>
-            sum + review.rating,
-          0
-        ) /
-      result.product.reviews.filter(
-        (review: any) => review.rating !== null
-      ).length
-    : 0;
+  const determineStatus = (text: string) => {
+    const lower = text.toLowerCase();
+    if (lower.includes("not recommended") || lower.includes("skip") || lower.includes("avoid")) return "SKIP";
+    if (lower.includes("highly recommended") || lower.includes("excellent buy") || lower.includes("great buy") || lower.includes("buy")) return "BUY";
+    return "CONSIDER";
+  };
 
   const product = {
-  brand: result.product.productName,
-  name: result.product.productName,
-  price: dbProduct?.price ? `₹${dbProduct.price.toLocaleString()}` : "—",
-  imageUrl: dbProduct?.imageUrl || null,
-  tags: result.product.sources,
-  verdictStatus: result.analysis.verdict,
-  verdictDescription: result.analysis.summary,
-  communityScore: rawCommunityScore.toFixed(1),
-  reviewCount: result.product.reviews.length.toString(),
-  confidenceScore: 90,
-  confidenceText:
-    "Confidence score is based on the available review data.",
-  pros: result.analysis.pros,
-  cons: result.analysis.cons,
-  lastUpdated: "Just now",
-  dataAnalyzed: `${result.product.reviews.length} reviews from ${result.product.sources.length} sources`,
-};
+    brand: backendProduct.brand || backendProduct.productName,
+    name: backendProduct.productName,
+    price: backendProduct.price ? `₹${backendProduct.price.toLocaleString()}` : "—",
+    imageUrl: backendProduct.imageUrl || null,
+    tags: backendProduct.sources,
+    verdictStatus: determineStatus(analysis.verdict),
+    verdictDescription: analysis.verdict,
+    communityScore: rawCommunityScore.toFixed(1),
+    reviewCount: stats?.totalReviews?.toString() ?? "0",
+    confidenceScore: 90,
+    confidenceText: "Confidence score is based on the available review data.",
+    pros: analysis.pros,
+    cons: analysis.cons,
+    lastUpdated: "Just now",
+    dataAnalyzed: `${stats?.totalReviews ?? 0} reviews from ${backendProduct.sources.length} sources`,
+  };
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -122,7 +118,7 @@ export default function ProductVerdict({ result, dbProduct }: { result: SearchRe
           </div>
           <div className="relative flex flex-col">
             <h3 className="text-xs font-medium uppercase tracking-widest text-zinc-500">Overall verdict</h3>
-            <div className="mt-1 text-3xl font-bold leading-[0.95] tracking-tight text-[#6FCE7B] sm:text-4xl lg:text-5xl lg:break-words">
+            <div className="mt-1 text-xl font-bold leading-[0.95] tracking-tight text-[#6FCE7B] sm:text-2xl lg:text-3xl lg:break-words">
               {product.verdictStatus}
             </div>
             <p className="mt-2 text-sm font-medium text-zinc-300">{product.verdictDescription}</p>

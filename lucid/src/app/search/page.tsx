@@ -5,8 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { searchProduct } from "@/lib/api";
 import AppNavbar from "@/components/app/AppNavbar";
 import Footer from "@/components/Footer";
-import ProductCard from "@/components/app/ProductCard";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -18,6 +17,13 @@ function SearchResults() {
     queryFn: () => searchProduct(query),
     enabled: !!query,
   });
+
+  useEffect(() => {
+    if (data?.data) {
+      sessionStorage.setItem("lucid_search_result", JSON.stringify(data.data));
+      router.push("/result");
+    }
+  }, [data, router]);
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#6fce7b]/30">
@@ -32,34 +38,15 @@ function SearchResults() {
 
         {isLoading ? (
           <div className="flex min-h-[40vh] items-center justify-center">
-            <p className="text-zinc-500">Searching...</p>
+            <p className="text-zinc-500 animate-pulse">Running AI analysis on product reviews...</p>
           </div>
         ) : isError ? (
           <div className="flex min-h-[40vh] items-center justify-center">
-            <p className="text-red-400">Failed to load results.</p>
-          </div>
-        ) : data?.data?.items?.length === 0 ? (
-          <div className="flex min-h-[40vh] items-center justify-center">
-            <p className="text-zinc-500">No products found matching "{query}".</p>
+            <p className="text-red-400">Failed to load results. Please try again.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {data?.data?.items?.map((product: any) => (
-              <div key={product.id} onClick={() => router.push(`/product/${product.id}`)}>
-                <ProductCard
-                  product={{
-                    id: product.id,
-                    title: product.name,
-                    brand: product.brand || "Unknown",
-                    category: product.category || "General",
-                    price: product.price ? `$${product.price}` : "N/A",
-                    rating: 0, // We would need stats in search results or just show 0
-                    reviewCount: 0,
-                    image: product.imageUrl,
-                  }}
-                />
-              </div>
-            ))}
+          <div className="flex min-h-[40vh] items-center justify-center">
+            <p className="text-zinc-500">No products found matching "{query}".</p>
           </div>
         )}
       </main>

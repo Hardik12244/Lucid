@@ -12,34 +12,19 @@ const trendPoints = [
 ];
 
 export default function RatingAnalytics({ result }: { result: SearchResult; }) {
+  const { stats } = result;
 
-  const ratedReviews = result.product.reviews.filter(
-    (review) => review.rating !== null
-  );
-
-  const totalRatings = ratedReviews.length;
-
+  const totalRatings = stats?.ratedReviews ?? 0;
+  
   const ratingData = [5, 4, 3, 2, 1].map((stars) => {
-    const count = ratedReviews.filter(
-      (review) => review.rating === stars
-    ).length;
-
+    const count = stats?.ratingDistribution[stars as 1|2|3|4|5] ?? 0;
     return {
       stars,
-      percentage:
-        totalRatings > 0
-          ? Math.round((count / totalRatings) * 100)
-          : 0,
+      percentage: totalRatings > 0 ? Math.round((count / totalRatings) * 100) : 0,
     };
   });
 
-  const averageRating =
-    totalRatings > 0
-      ? ratedReviews.reduce(
-        (sum, review) => sum + (review.rating ?? 0),
-        0
-      ) / totalRatings
-      : 0;
+  const averageRating = stats?.averageRating ?? 0;
   return (
     <section className="mx-auto w-full max-w-6xl cursor-pointer select-none">
       <div className="mb-8 flex items-end justify-between">

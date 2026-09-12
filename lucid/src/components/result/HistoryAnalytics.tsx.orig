@@ -2,9 +2,8 @@
 
 import { motion, Variants } from "framer-motion";
 import { Sparkles, TrendingDown, Clock, Minus, Activity } from "lucide-react";
-import type { SearchResult } from "@/lib/types";
 
-export default function HistoryAnalytics({ result }: { result: SearchResult }) {
+export default function HistoryAnalytics() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -15,30 +14,22 @@ export default function HistoryAnalytics({ result }: { result: SearchResult }) {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
   };
 
-  const currentPriceRaw = result.product.price ?? 104900;
-  const launchPriceRaw = Math.round(currentPriceRaw * 1.15);
-  const averagePriceRaw = Math.round(currentPriceRaw * 1.05);
-  const lowestPriceRaw = Math.round(currentPriceRaw * 0.95);
-  const dropPercentage = Math.round(((launchPriceRaw - currentPriceRaw) / launchPriceRaw) * 100);
-
-  const formatPrice = (p: number) => `₹${p.toLocaleString()}`;
-
   const data = {
     reviewEvents: [
       { date: "Sep 2023", label: "Launch", rating: "4.8", y: 60, align: "start" },
       { date: "Dec 2023", label: "OS Update", rating: "4.8", y: 60, align: "middle" },
       { date: "Mar 2024", label: "Battery complaints", rating: "4.5", y: 140, align: "middle" },
-      { date: "Aug 2024", label: "Today", rating: result.stats.averageRating?.toFixed(1) ?? "4.6", y: 110, align: "end" },
+      { date: "Aug 2024", label: "Today", rating: "4.6", y: 110, align: "end" },
     ],
     priceSnapshot: {
-      current: formatPrice(currentPriceRaw),
-      lowest: formatPrice(lowestPriceRaw),
-      average: formatPrice(averagePriceRaw),
-      launch: formatPrice(launchPriceRaw),
-      status: dropPercentage > 0 ? `↓ ${dropPercentage}% vs launch` : "Stable"
+      current: "₹1,04,900",
+      lowest: "₹1,04,900",
+      average: "₹1,12,400",
+      launch: "₹1,19,900",
+      status: "↓ 6.6% vs average"
     },
     insight: {
-      text: result.analysis.summary || "Current pricing is favorable. The product has hit its lowest price since launch, while community sentiment has stabilized.",
+      text: "Current pricing is highly favorable. The product has hit its lowest price since launch, while community sentiment has stabilized after minor battery wear complaints in March. With no new model expected for 6 months, this is an optimal purchasing window.",
       priceStatus: { label: "Favorable", icon: <TrendingDown className="h-4 w-4 text-[#6fce7b]" />, color: "text-[#6fce7b]" },
       sentimentStatus: { label: "Stable", icon: <Minus className="h-4 w-4 text-zinc-400" />, color: "text-zinc-300" },
       buyTiming: { label: "BUY NOW", color: "bg-[#6fce7b] text-[#071009]" }
@@ -188,14 +179,14 @@ export default function HistoryAnalytics({ result }: { result: SearchResult }) {
                 strokeLinecap="round"
               />
               
-              <text x="0" y="10" className="fill-zinc-400 text-[12px] font-medium">{data.priceSnapshot.launch}</text>
-              <text x="300" y="45" className="fill-zinc-400 text-[12px] font-medium" textAnchor="middle">{data.priceSnapshot.average}</text>
-              <text x="600" y="105" className="fill-zinc-400 text-[12px] font-medium" textAnchor="end">{data.priceSnapshot.current}</text>
+              <text x="0" y="10" className="fill-zinc-400 text-[12px] font-medium">₹1.2L</text>
+              <text x="300" y="45" className="fill-zinc-400 text-[12px] font-medium" textAnchor="middle">₹1.15L</text>
+              <text x="600" y="105" className="fill-zinc-400 text-[12px] font-medium" textAnchor="end">₹1.04L</text>
 
               <line x1="0" y1="160" x2="600" y2="160" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <text x="0" y="178" className="fill-zinc-500 text-[11px]">Launch</text>
-              <text x="300" y="178" className="fill-zinc-500 text-[11px]" textAnchor="middle">Mid-cycle</text>
-              <text x="600" y="178" className="fill-zinc-500 text-[11px]" textAnchor="end">Today</text>
+              <text x="0" y="178" className="fill-zinc-500 text-[11px]">Sep</text>
+              <text x="300" y="178" className="fill-zinc-500 text-[11px]" textAnchor="middle">Mar</text>
+              <text x="600" y="178" className="fill-zinc-500 text-[11px]" textAnchor="end">Aug</text>
             </svg>
           </div>
         </motion.div>

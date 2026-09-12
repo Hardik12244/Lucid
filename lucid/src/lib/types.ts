@@ -9,8 +9,14 @@ export interface SearchResult {
   product: {
     productName: string;
     sources: string[];
-    reviews: Review[];
+    imageUrl?: string | null;
+    price?: number | null;
+    brand?: string | null;
+    description?: string | null;
+    category?: string | null;
   };
+
+  reviews: Review[];
 
   analysis: {
     summary: string;
@@ -22,6 +28,24 @@ export interface SearchResult {
       neutral: number;
       negative: number;
     };
+  };
+
+  stats: {
+    totalReviews: number;
+    ratedReviews: number;
+    averageRating: number | null;
+    ratingDistribution: {
+      1: number;
+      2: number;
+      3: number;
+      4: number;
+      5: number;
+    };
+    sourceBreakdown: {
+      source: string;
+      reviewCount: number;
+      percentage: number;
+    }[];
   };
 }
 export interface DBProduct {

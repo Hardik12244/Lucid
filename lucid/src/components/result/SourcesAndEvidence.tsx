@@ -228,27 +228,26 @@ export default function SourcesAndEvidence({ result }: { result: SearchResult })
           </div>
 
           <div className="mt-8 flex flex-col gap-6">
-            {result.product.sources.map((source, idx) => (
-              <div key={source} className="group flex items-center gap-5">
+            {result.stats.sourceBreakdown.map((source, idx) => (
+              <div key={source.source} className="group flex items-center gap-5">
                 <div className="flex w-36 items-center gap-3 text-[14px] text-zinc-300 transition-colors group-hover:text-white">
                   <span className="text-zinc-500 transition-colors group-hover:text-[#6fce7b]">
-                    {source === "reddit" && <RedditIcon className="h-[18px] w-[18px]" />}
-                    {source === "amazon" && <AmazonIcon className="h-5 w-5" />}
-                    {source === "youtube" && <YouTubeIcon className="h-[18px] w-[18px]" />}
-                    {source !== "reddit" &&
-                      source !== "amazon" &&
-                      source !== "youtube" && (
+                    {source.source.toLowerCase().includes("reddit") && <RedditIcon className="h-[18px] w-[18px]" />}
+                    {source.source.toLowerCase().includes("amazon") && <AmazonIcon className="h-5 w-5" />}
+                    {source.source.toLowerCase().includes("youtube") && <YouTubeIcon className="h-[18px] w-[18px]" />}
+                    {!source.source.toLowerCase().includes("reddit") &&
+                      !source.source.toLowerCase().includes("amazon") &&
+                      !source.source.toLowerCase().includes("youtube") && (
                         <Award className="h-4 w-4" />
                       )}
                   </span>
-
-                  {source}
+                  {source.source}
                 </div>
 
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
+                    whileInView={{ width: `${source.percentage}%` }}
                     transition={{
                       duration: 1,
                       delay: 0.2 + idx * 0.1,
@@ -260,9 +259,7 @@ export default function SourcesAndEvidence({ result }: { result: SearchResult })
 
                 <div className="flex w-12 flex-col items-end">
                   <span className="font-tag text-[13px] font-medium text-white">
-                    {result.product.reviews.filter(
-                      (review) => review.source === source
-                    ).length}
+                    {source.reviewCount}
                   </span>
                 </div>
               </div>
@@ -347,8 +344,8 @@ export default function SourcesAndEvidence({ result }: { result: SearchResult })
           />
 
           <div className="flex flex-col gap-10 pb-8">
-            {evidenceData.map((evidence, idx) => (
-              <motion.div key={evidence.id} variants={itemVariants} className="group relative pl-8 sm:pl-12">
+            {result.reviews.slice(0, 5).map((evidence, idx) => (
+              <motion.div key={idx} variants={itemVariants} className="group relative pl-8 sm:pl-12">
                 <div className="absolute left-0 top-6 z-10 flex h-[15px] w-[15px] items-center justify-center rounded-full border-[3px] border-zinc-600 bg-[#0c0c0e] transition-colors duration-300 group-hover:border-[#6fce7b] group-hover:shadow-[0_0_12px_rgba(111,206,123,0.5)]" />
 
                 <div
@@ -357,27 +354,32 @@ export default function SourcesAndEvidence({ result }: { result: SearchResult })
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-tag text-[10px] font-semibold tracking-[0.2em] text-zinc-500 group-hover:text-[#6fce7b]/70">
-                      EXHIBIT {evidence.exhibit}
+                      EXHIBIT {idx + 1}
                     </span>
                     <Quote className="h-5 w-5 text-white/[0.06]" />
                   </div>
 
+                  {evidence.title && (
+                    <h4 className="font-dossier text-[18px] font-semibold leading-relaxed text-white">
+                      {evidence.title}
+                    </h4>
+                  )}
+                  
                   <p className="font-dossier text-[16px] font-normal italic leading-relaxed text-zinc-200 sm:text-[18px]">
-                    "{evidence.quote}"
+                    "{evidence.content}"
                   </p>
 
                   <div className="mt-2 flex flex-col justify-between gap-4 border-t border-white/[0.04] pt-5 sm:flex-row sm:items-center">
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="flex items-center gap-1.5 text-[13px] font-medium text-zinc-400">
-                        {evidence.source === "Reddit" && <RedditIcon className="h-3.5 w-3.5" />}
-                        {evidence.source === "YouTube Tech Review" && <YouTubeIcon className="h-3.5 w-3.5" />}
-                        {evidence.source === "Long-term review" && <Award className="h-3.5 w-3.5" />}
+                        {evidence.source.toLowerCase().includes("reddit") && <RedditIcon className="h-3.5 w-3.5" />}
+                        {evidence.source.toLowerCase().includes("youtube") && <YouTubeIcon className="h-3.5 w-3.5" />}
+                        {evidence.source.toLowerCase().includes("amazon") && <AmazonIcon className="h-3.5 w-3.5" />}
                         {evidence.source}
                       </div>
                       <span className="text-zinc-600">·</span>
-                      <span className="font-tag text-[11px] text-zinc-500">{evidence.timeAgo}</span>
                       <div className="flex items-center gap-1.5 rounded-sm border border-[#6fce7b]/20 bg-[#6fce7b]/10 px-2.5 py-1 text-[11px] font-medium text-[#6fce7b]">
-                        <CheckCircle2 className="h-3 w-3" /> Supports {evidence.supportClaim}
+                        <CheckCircle2 className="h-3 w-3" /> User Rating: {evidence.rating ?? "N/A"}
                       </div>
                     </div>
 

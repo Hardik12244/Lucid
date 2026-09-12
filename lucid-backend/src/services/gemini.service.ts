@@ -77,7 +77,7 @@ Do not invent information that is not supported by the reviews.
 `;
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-3.6-flash",
 
         contents: prompt,
 

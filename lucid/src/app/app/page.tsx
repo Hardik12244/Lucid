@@ -201,7 +201,7 @@ export default function HomePage() {
                           onClick={() => {
                             setQuery(product.name);
                             setIsFocused(false);
-                            router.push(`/product/${product.id}`);
+                            router.push(`/search?q=${encodeURIComponent(product.name)}`);
                           }}
                           className="flex cursor-pointer items-center gap-4 px-4 py-3 transition-colors hover:bg-white/[0.04]"
                         >
@@ -232,10 +232,10 @@ export default function HomePage() {
             >
               <span>Try</span>
               <button
-                onClick={() => setQuery("iPhone 15 Pro")}
+                onClick={() => setQuery("Sony WH-1000XM5")}
                 className="text-zinc-400 transition-colors hover:text-white"
               >
-                iPhone 15 Pro
+                Sony WH-1000XM5
               </button>
 
               <span>·</span>
@@ -250,10 +250,10 @@ export default function HomePage() {
               <span>·</span>
 
               <button
-                onClick={() => setQuery("MacBook Air")}
+                onClick={() => setQuery("Galaxy S24 Ultra")}
                 className="text-zinc-400 transition-colors hover:text-white"
               >
-                MacBook Air
+                Galaxy S24 Ultra
               </button>
             </motion.div>
 

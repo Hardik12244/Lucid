@@ -2,9 +2,8 @@
 
 import { ShieldCheck, Wallet, Clock, AlertTriangle, History, CheckCircle2 } from "lucide-react";
 import { motion, Variants } from "framer-motion";
-import type { SearchResult } from "@/lib/types";
 
-export default function RealWorldExperience({ result }: { result?: SearchResult }) {
+export default function RealWorldExperience() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -19,18 +18,18 @@ export default function RealWorldExperience({ result }: { result?: SearchResult 
     verdict: {
       title: "Holds up well over time",
       subtitle:
-        "Most owners report strong reliability beyond the first year. Minor degradation is the one complaint that keeps showing up.",
+        "Most owners report strong reliability beyond the first year. Battery wear is the one complaint that keeps showing up.",
     },
     metrics: {
       reliability: 94,
       value: 88,
       avgOwnership: "2.5",
-      users: result?.stats?.totalReviews?.toString() ?? "1,284",
+      users: "1,284",
     },
     timeline: [
-      { point: "Day 1", score: result?.stats?.averageRating ?? 4.8, sentiment: "Very positive", state: "good" },
-      { point: "6 months", score: (result?.stats?.averageRating ?? 4.8) - 0.3, sentiment: "Still positive", state: "good" },
-      { point: "1+ year", score: (result?.stats?.averageRating ?? 4.8) - 0.5, sentiment: "Minor decline", state: "flag" },
+      { point: "Day 1", score: 4.8, sentiment: "Very positive", state: "good" },
+      { point: "6 months", score: 4.5, sentiment: "Still positive", state: "good" },
+      { point: "1+ year", score: 4.3, sentiment: "Minor decline", state: "flag" },
     ],
     ownershipBreakdown: [
       { label: "< 6 months", pct: 24 },
@@ -40,13 +39,13 @@ export default function RealWorldExperience({ result }: { result?: SearchResult 
     ],
     issues: [
       {
-        issue: "Battery/Wear degradation",
+        issue: "Battery degradation",
         percentage: 18,
         severity: "High impact",
         onset: "Usually reported after 12+ months",
       },
       {
-        issue: "Minor cosmetic wear",
+        issue: "Screen burn-in",
         percentage: 7,
         severity: "Medium impact",
         onset: "Usually reported after 18+ months",
@@ -59,7 +58,7 @@ export default function RealWorldExperience({ result }: { result?: SearchResult 
       { name: "Price", score: 78 },
     ],
     dealbreakers: [
-      { type: "warning", text: "Long term degradation", subtext: "Relevant if you plan to keep it 3+ years" },
+      { type: "warning", text: "Battery degradation", subtext: "Relevant if you plan to keep it 3+ years" },
       { type: "success", text: "No major reliability concerns across hardware" },
     ],
     confidence: {
@@ -173,7 +172,7 @@ export default function RealWorldExperience({ result }: { result?: SearchResult 
               <div className="relative flex justify-between">
                 {data.timeline.map((point, idx) => (
                   <div key={idx} className="relative flex flex-col items-center gap-3">
-                    <span className="font-dossier text-3xl font-medium text-white">{point.score.toFixed(1)}</span>
+                    <span className="font-dossier text-3xl font-medium text-white">{point.score}</span>
                     <div
                       className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-[4px] border-[#0c0c0e]"
                       style={{ backgroundColor: stateColors[point.state] }}
