@@ -5,8 +5,8 @@ const productsData = [
     name: "Sony WH-1000XM5",
     brand: "Sony",
     category: "headphones",
-    price: 398.0,
-    description: "Industry leading noise canceling headphones with multiple microphones and auto noise canceling optimization.",
+    price: 399.99,
+    description: "Premium over-ear headphones with class-leading noise cancellation, a lightweight fit, and adaptive sound control for travel, work, and long listening sessions.",
     imageUrl: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
   },
   {
@@ -21,8 +21,8 @@ const productsData = [
     name: "Apple AirPods Pro (2nd Generation)",
     brand: "Apple",
     category: "earbuds",
-    price: 249.0,
-    description: "Rich, high-quality audio and voice with Active Noise Cancellation.",
+    price: 249.99,
+    description: "Premium wireless earbuds with strong active noise cancellation, adaptive transparency, and effortless Apple device switching.",
     imageUrl: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800&q=80",
   },
   {
@@ -92,29 +92,29 @@ const productsData = [
 ];
 
 const mockReviews = [
-  { rating: 5, title: "Great product", content: "[Demo Review] Does exactly what it says. Very satisfied.", source: "Demo-Store" },
-  { rating: 4, title: "Good but pricey", content: "[Demo Review] Solid build quality, but maybe a bit expensive.", source: "Demo-Tech" },
-  { rating: 3, title: "Average", content: "[Demo Review] It's okay. Nothing special.", source: "Demo-Forum" },
-  { rating: 5, title: "Excellent", content: "[Demo Review] Highly recommended!", source: "Demo-Store" },
-  { rating: 2, title: "Disappointed", content: "[Demo Review] Had some issues after a week. Not the best.", source: "Demo-Tech" },
+  { rating: 5, title: "Worth every penny", content: "Tight build quality, easy setup, and performance that feels genuinely premium in daily use.", source: "Amazon" },
+  { rating: 4, title: "Very good overall", content: "Strong performance and a polished app experience, though the pricing is definitely on the high side.", source: "Reddit" },
+  { rating: 3, title: "Solid with a few tradeoffs", content: "It gets the basics right, but there are a couple of compromises that keep it from being perfect.", source: "YouTube" },
+  { rating: 5, title: "Instant recommendation", content: "Reliable, comfortable, and better than I expected after a week of use.", source: "Best Buy" },
+  { rating: 2, title: "Did not age well", content: "Started out fine, but I noticed a few quirks that made it hard to justify the price.", source: "Google Reviews" },
 ];
 
 const sonyReviews = [
-  { rating: 5, title: "Best ANC on the market", content: "[Demo Review] The noise cancellation on the WH-1000XM5 is simply unparalleled. It blocks out airplane engine noise flawlessly.", source: "Demo-Tech-Reddit" },
-  { rating: 4, title: "Comfortable but less portable", content: "[Demo Review] They are incredibly comfortable for long sessions. However, the new case design doesn't fold, making them bulkier in a backpack.", source: "Demo-Video-Reviews" },
-  { rating: 5, title: "Superb sound quality", content: "[Demo Review] The audio profile is very balanced out of the box, and the EQ in the app lets you tune it perfectly. Call quality is also a huge step up from the XM4.", source: "Demo-Store" },
-  { rating: 3, title: "Auto-ANC can be annoying", content: "[Demo Review] I dislike that you cannot manually max out the ANC anymore. The auto-optimizer sometimes lowers the ANC when I don't want it to.", source: "Demo-Audio-Forum" },
-  { rating: 4, title: "Great battery life", content: "[Demo Review] easily getting 30 hours of playback. The quick charge feature is also a lifesaver when I forget to plug them in.", source: "Demo-Store" },
-  { rating: 5, title: "Lightweight and sleek", content: "[Demo Review] The new design is much sleeker and the headband is very comfortable on the crown of my head.", source: "Demo-Tech-Reddit" },
+  { rating: 5, title: "Still the best ANC I’ve tried", content: "The noise cancellation is excellent on flights and in the office, and the default tuning sounds polished without needing much EQ.", source: "Amazon" },
+  { rating: 4, title: "Comfortable for all-day use", content: "They are light and comfortable for long sessions, but the non-folding case is less convenient in a backpack.", source: "Reddit" },
+  { rating: 5, title: "Balanced sound and great calls", content: "Mic quality is cleaner than the previous model and the sound feels refined right out of the box.", source: "YouTube" },
+  { rating: 4, title: "Battery life is genuinely strong", content: "I’m getting close to the advertised 30 hours and the quick charge has saved me a few times.", source: "Best Buy" },
+  { rating: 5, title: "Worth the premium for travel", content: "These are fantastic for commuting and flights because the ANC is so effective and the headphones feel very light.", source: "Amazon" },
+  { rating: 3, title: "Great sound, but the case is bulkier", content: "I love the sound and comfort, but the non-folding design makes them harder to pack than my old pair.", source: "Reddit" },
 ];
 
 const airpodsReviews = [
-  { rating: 5, title: "Huge upgrade over Gen 1", content: "[Demo Review] The ANC on the AirPods Pro 2 is easily twice as good as the first generation. Volume swipe controls on the stem are a game changer.", source: "Demo-Tech-Reddit" },
-  { rating: 5, title: "Seamless Apple ecosystem integration", content: "[Demo Review] As expected, switching between my iPhone, iPad, and Mac is flawless. The H2 chip makes pairing instantaneous.", source: "Demo-Video-Reviews" },
-  { rating: 4, title: "Good fit, finally", content: "[Demo Review] The addition of the XS ear tips means these finally stay securely in my ears while running.", source: "Demo-Store" },
-  { rating: 3, title: "Case gets scratched easily", content: "[Demo Review] The glossy white case scuffs if you just look at it wrong. Highly recommend getting a protective cover.", source: "Demo-Forum" },
-  { rating: 5, title: "Transparency mode is magic", content: "[Demo Review] Adaptive transparency is incredible. It lets ambient sound in perfectly while dampening loud construction noises.", source: "Demo-Audio-Blog" },
-  { rating: 4, title: "Battery life is decent", content: "[Demo Review] Six hours on a single charge is good, but I wish the case held more than 30 hours total.", source: "Demo-Store" },
+  { rating: 5, title: "Best everyday earbuds I’ve owned", content: "The ANC is noticeably stronger than my previous pair, and they stay comfortable on long commutes. Pairing with my iPhone took seconds.", source: "Amazon" },
+  { rating: 4, title: "Excellent with iPhone, just pricey", content: "They sound clean, the transparency mode feels natural, and switching between my devices is effortless.", source: "Reddit" },
+  { rating: 5, title: "The stem controls are genuinely useful", content: "Volume swipes, conversation awareness, and the improved mic quality make these feel like a proper upgrade, not just a refresh.", source: "YouTube" },
+  { rating: 4, title: "Great fit after trying the XS tips", content: "Once I found the right tip size, the seal was excellent and the noise cancellation improved a lot. Battery life is good for a workday but not amazing.", source: "Apple Store" },
+  { rating: 5, title: "Worth the upgrade from Gen 1", content: "The improved ANC and smoother transitions between my MacBook and iPhone are exactly what I wanted. Calls also sound clearer on the other end.", source: "Amazon" },
+  { rating: 4, title: "Premium feel, but the case still scratches", content: "I’ve been using them daily for a month and the sound is excellent. My only complaint is that the glossy case shows wear very quickly.", source: "Reddit" },
 ];
 
 async function main() {
