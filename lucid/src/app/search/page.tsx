@@ -5,17 +5,28 @@ import { useQuery } from "@tanstack/react-query";
 import { searchProduct } from "@/lib/api";
 import AppNavbar from "@/components/app/AppNavbar";
 import Footer from "@/components/Footer";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const router = useRouter();
+  const requestId = useRef(
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : String(Date.now()),
+  );
+
+  useEffect(() => {
+    sessionStorage.removeItem("lucid_search_result");
+  }, [query]);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["search", query],
+    queryKey: ["search", query, requestId.current],
     queryFn: () => searchProduct(query),
     enabled: !!query,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
@@ -30,7 +41,7 @@ function SearchResults() {
       <AppNavbar />
 
       <main className="relative mx-auto max-w-7xl px-6 pb-24 pt-12 lg:px-8">
-        <div className="mb-8 border-b border-white/[0.08] pb-6">
+        <div className="mb-8 border-b border-white/8 pb-6">
           <h1 className="text-2xl font-semibold tracking-tight text-white">
             Search results for <span className="text-[#6fce7b]">"{query}"</span>
           </h1>
